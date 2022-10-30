@@ -41,8 +41,8 @@
                 {% if current_user.is_authenticated %}
                 <div class="dropdown-divider"></div>
                 
-                <a class="dropdown-item" href="{{ url_for('available_courses.student_course_enrolment') }}">Enrolment</a>
-               
+                
+                
                 <div class="dropdown-divider"></div>
 
                 <a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a>
@@ -55,16 +55,19 @@
                     Enrolment
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  
-                  
-                  
-                  
                   <a class="dropdown-item" href="{{ url_for('available_courses.student_course_enrolment') }}">Enrolment</a>
-                 
-                  <div class="dropdown-divider"></div>
-  
-                 
-                 
+                </div>
+              </li>
+              {% endif %}
+              {% if current_user.is_authenticated and current_user.rol_id == 1 %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Admin
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{{ url_for('auth.saveRecord') }}">Add Lecturer</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ url_for('auth.saverloc') }}">Add Class Room</a>
                 </div>
               </li>
               {% endif %}

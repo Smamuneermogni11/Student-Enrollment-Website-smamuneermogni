@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style type="text/css">
+    body {
+        text-align: center;
+    }
+  
+    h1 {
+        color: green;
+    }
+  
+    /* Basic CSS to design table */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+  
+    th,
+    td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+  
+    /* CSS command for the row to highlight */
+    .highlight {
+        background-color: #b8b8b8;
+    }
+  </style>
+<h1>Add Class Room</h1>
+ <form action = "/saverloc" method="post">
+
+ <table>
+
+  <tr><td>Name</td><td><input type="text" name="name_loc" ></td></tr>
+  <tr><td>Capacity</td><td><input type="number" name="cap"></td></tr>
+ 
+
+  <tr><td></td><td><input type="submit" value="Add"></td></tr>
+  
+ </table>
+ <br> <h1>{{msg}}</h1><br><br>
+ <h1>Class Room Information</h1>
+ <table id="table_to_highlight" style="width:100%">
+    <thead>
+      <tr>     
+        <th>Class Room Name</th>
+        <th>Class Room Capacity</th>
+      </tr>
+      </thead>    
+      <tbody>
+       {% for row in data6 %}    
+              <tr>                   
+                  <td>{{row[2]}}</td>
+                  <td>{{row[1]}}</td>
+              </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+ </form>
+{% endblock %}

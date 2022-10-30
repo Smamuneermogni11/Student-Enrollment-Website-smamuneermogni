@@ -28,4 +28,7 @@ def create_app():
     
     from available_courses import available_courses as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from insert_course import insert_course as main_blueprint
+    app.register_blueprint(main_blueprint)
     return app

@@ -1,34 +1,113 @@
 {% extends "base.html" %}
 
 {% block content %}
-<style>
-    table, th, td {
-      border: 1px solid black;
+<style type="text/css">
+  body {
+      text-align: center;
+  }
+
+  h1 {
+      color: green;
+  }
+
+  /* Basic CSS to design table */
+  table {
       border-collapse: collapse;
-    }
-    
-    th:nth-child(even),td:nth-child(even) {
-      background-color: #D6EEEE;
-    }
-    </style>
-<table style="width:100%">
+      width: 100%;
+  }
+
+  th,
+  td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+  }
+
+  /* CSS command for the row to highlight */
+  .highlight {
+      background-color: #b8b8b8;
+  }
+</style>
+&nbsp;
+&nbsp;
+&nbsp;
+
+<h1>Avalible Course for you {{name}} </h1>
+&nbsp;
+<form method="GET" action="/student_course_enrolment">
+    <input type="hidden" name="idd" value="{{idd}}">
+    <table id="table_to_highlight" style="width:100%">
+        <thead>
+          <tr>     
+            <th>Course Code</th>
+            <th>Course Name</th>
+          </tr>
+          </thead>    
+          <tbody>
+           {% for row in data2 %}    
+                  <tr>                   
+                      <td>{{row[0]}}</td>
+                      <td>{{row[1]}}</td>
+                    <td><input type="hidden" name="idd" value="{{idd}}"> </td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+</form>
+<form method="POST" action="/incourse">
+
+&nbsp;
+<table id="table_to_highlight" style="width:100%">
     <thead>
       <tr>
-        <th>course_code</th>
-        <th>course_name</th>
-        <th>course_descr</th>      
-        <th>level_id</th>
+        <th>Course ID</th>
+        <th>Course Code</th>
+        <th>Course Name</th>
+        <th>Level</th>      
+        <th>Cedit</th>
       </tr>
       </thead>    
       <tbody>
        {% for row in data %}    
               <tr>
-                  <td>{{row[0]}}</td>
+                <td><input type="hidden" name="title" value="{{ row[0] }}"> {{ row[0] }} </td>
                   <td>{{row[1]}}</td>
                   <td>{{row[2]}}</td>
                   <td>{{row[3]}}</td>
+                  <td>{{row[4]}}</td>
+                  <td><input class="form__submit form__input" type="submit" value="{{ row[0] }}" name="course_id"/></td>
+                  <td><input type="hidden" name="idd" value="{{idd}}"> </td>
               </tr>
           {% endfor %}
       </tbody>
   </table>
+
+  <script type="text/javascript" method="POST" action="/student_course_enrolment">
+  // JavaScript Code to Highlight any
+        // row in the given table.
+        document.getElementById('table_to_highlight')
+            .addEventListener('click', function (item) {
+  
+                // To get tr tag 
+                // In the row where we click
+                var row = item.path[1];
+  
+                var row_value = "";
+  
+                for (var j = 0; j < row.cells.length; j++) {
+  
+                    row_value += row.cells[j].innerHTML;
+                    row_value += " | ";
+                }
+  
+                //alert(row_value);
+  
+                // Toggle the highlight
+                if (row.classList.contains('highlight'))
+                    row.classList.remove('highlight');
+                else
+                    row.classList.add('highlight');
+            });
+    </script>
+    </form> 
     {% endblock %}
