@@ -48,7 +48,7 @@
                   <tr>                   
                       <td>{{row[0]}}</td>
                       <td>{{row[1]}}</td>
-                    <td><input type="hidden" name="idd" value="{{idd}}"> </td>
+                    <td><input type="checkbox" name="idd" value="{{idd}}"> </td>
                   </tr>
               {% endfor %}
           </tbody>
@@ -76,12 +76,12 @@
                   <td>{{row[3]}}</td>
                   <td>{{row[4]}}</td>
                   <td><input class="form__submit form__input" type="submit" value="{{ row[0] }}" name="course_id"/></td>
-                  <td><input type="hidden" name="idd" value="{{idd}}"> </td>
+                  <td><input type="checkbox" name="idd" value="{{idd}}"> </td>
               </tr>
           {% endfor %}
       </tbody>
   </table>
-
+ 
   <script type="text/javascript" method="POST" action="/student_course_enrolment">
   // JavaScript Code to Highlight any
         // row in the given table.

@@ -12,7 +12,11 @@ main = Blueprint('main', __name__)
 @main.route('/') 
 def index():
     return render_template('index.html')
-    
+
+@main.route('/About') 
+def About():
+    return render_template('About.html')
+
 @main.route('/profile') 
 @login_required
 def profile():
