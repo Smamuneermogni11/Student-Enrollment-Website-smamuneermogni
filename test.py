@@ -1,6 +1,9 @@
 import pytest
+
 from main import create_app
 from models import User
+
+
 def test_home_page_post():
     flask_app = create_app()
     with flask_app.test_client() as test_client:
@@ -8,10 +11,25 @@ def test_home_page_post():
         assert response.status_code == 405
         assert b"Home Page Test" not in response.data
 
+@pytest.fixture(scope="session")
+def app(request, monkeypatch_session):
+    monkeypatch_session.setenv("FLASK_ENV", "testing")
+    app = create_app()
+    return app
+
 def client(app):
 
     with app.test_client() as client:
         yield client
+
+@pytest.fixture(scope="session")
+def monkeypatch_session(request):
+
+    from _pytest.monkeypatch import MonkeyPatch
+
+    mpatch = MonkeyPatch()
+    yield mpatch
+    mpatch.undo()
 
 # def test_new_user():
 #     """
