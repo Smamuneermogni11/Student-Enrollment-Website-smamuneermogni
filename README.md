@@ -76,33 +76,13 @@ Current: 4 hours per week
 # Instruction to virtual environment:
 
 ### For windows user:
-1.C:\> pip install virtualenv
+1. python3 -m venv venv # create the venv
+2. venv\scripts\activate.bat # activate venv
+3. pip install -r requirements.txt  # install the requirements
+4. python.exe -m pip install --upgrade pip # upgrade if needed
+5. python main.py # run the website
+6. From the Browser go to  http://127.0.0.1:5000  # Browser the website
 
-2. venv\Scripts\activate.bat
-
-3. python -m pip install --upgrade pip
-
-4. python -m pip install flask
-  
-    paste this code in visual studio code
-    
-    Then run this code in terminal:
-
-python -m flask run
-
-When renamed the flask file: set Flask_APP=front_page
-
-After getting the website link:
-### Output:
-Hold Ctrl button and click on the link:
-
-(venv) C:\Users\Muneer\Desktop\work>python -m flask run
- * Debug mode: off
-WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
- * Running on http://127.0.0.1:5000
-Press CTRL+C to quit
-127.0.0.1 - - [01/Oct/2022 16:01:51] "GET / HTTP/1.1" 200 -
-127.0.0.1 - - [01/Oct/2022 16:01:51] "GET /favicon.ico HTTP/1.1" 404 -
 
 
 ### For MacOS and Linux user:
@@ -112,39 +92,14 @@ python -m venv venv
 For Linux Based OS Or Mac-OS.
 pip3 install --upgrade pip
 source venv/bin/activate
-3. Installing Flask:
-pip install -U Flask
-
-4. Flask run
+3. pip install -r requirements.txt
+4. python main.py
 
 
-# Testing the web page: 
-For windows: 
-$ pip install pytest
-from front_page import app
+## Testing the web page: 
+###For windows: 
+python -m pytest test.py
 
-def test_front_page():
-    response = app.test_client().get('/')
+###For MacOS and Linux user: 
+pytest test.py
 
-    assert response.status_code == 200
-    assert response.data == b'PythonByte!'
-  For MacOS and Linux:
-  pip3 install pytest
-  
-    
-    
-## To run the test:
-For windows: 
-pytest test_front_page.py
-
-Output:
-(venv) C:\Users\Muneer\Desktop\work>pytest test_front_page.py
-========================================================== test session starts ===========================================================
-platform win32 -- Python 3.10.6, pytest-7.1.3, pluggy-1.0.0
-rootdir: C:\Users\Muneer\Desktop\work
-collected 1 item
-
-test_front_page.py .                                                                                                                [100%]
-
-For MacOS and Linux: 
-pytest test_front_page.py
