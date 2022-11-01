@@ -2,7 +2,6 @@
 from flask import Blueprint, render_template, flash
 from flask_login import login_required, current_user
 from __init__ import create_app, db
-import sqlite3
 from flask import Flask
 
 

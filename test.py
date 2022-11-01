@@ -1,3 +1,4 @@
+from pip import main
 import pytest
 
 from main import create_app
@@ -11,34 +12,32 @@ def test_home_page_post():
         assert response.status_code == 405
         assert b"Home Page Test" not in response.data
 
-@pytest.fixture(scope="session")
-def app(request, monkeypatch_session):
-    monkeypatch_session.setenv("FLASK_ENV", "testing")
-    app = create_app()
-    return app
+def test_home_page_get():
+    flask_app = create_app()
+    with flask_app.test_client() as test_client:
+        response = test_client.get('/')
 
-def client(app):
+        assert response.status_code == 200
+        assert b"Home Page Test" not in response.data
 
-    with app.test_client() as client:
-        yield client
 
-@pytest.fixture(scope="session")
-def monkeypatch_session(request):
 
-    from _pytest.monkeypatch import MonkeyPatch
+def test_valid_login_logout():
+    flask_app = create_app()
+    with flask_app.test_client() as test_client:
+        response = test_client.post('/login',
+                                data=dict(email='naif.alblawi@cgu.edu', password='123456'))
+        response = test_client.get('/profile')
+        assert response.status_code == 200
+    response = test_client.get('/logout', follow_redirects=True)
+    assert response.status_code == 200
+ 
 
-    mpatch = MonkeyPatch()
-    yield mpatch
-    mpatch.undo()
-
-# def test_new_user():
-#     """
-#     GIVEN a User model
-#     WHEN a new User is created
-#     THEN check the email, hashed_password, and role fields are defined correctly
-#     """
-#     user = User('1')
-#     assert user.email == 'naif@gmail.com'
-#     assert user.hashed_password != 'Password!!'
-#     assert user.rol_id == '1'
-
+def test_invalid_login():
+    flask_app = create_app()
+    with flask_app.test_client() as test_client:
+        response = test_client.post('/login',
+                                    data=dict(email='naif.alblawi@cgu.edu', password='1111'))
+        response = test_client.get('/login')
+        assert response.status_code == 200
+        
