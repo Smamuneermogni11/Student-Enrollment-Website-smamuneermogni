@@ -48,7 +48,7 @@
                   <tr>                   
                       <td>{{row[0]}}</td>
                       <td>{{row[1]}}</td>
-                    <td><input type="checkbox" name="idd" value="{{idd}}"> </td>
+                    
                   </tr>
               {% endfor %}
           </tbody>
@@ -76,7 +76,7 @@
                   <td>{{row[3]}}</td>
                   <td>{{row[4]}}</td>
                   <td><input class="form__submit form__input" type="submit" value="{{ row[0] }}" name="course_id"/></td>
-                  <td><input type="checkbox" name="idd" value="{{idd}}"> </td>
+                  <input type="hidden" name="idd" value="{{idd}}">
               </tr>
           {% endfor %}
       </tbody>

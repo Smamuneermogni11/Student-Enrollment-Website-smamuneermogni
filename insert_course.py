@@ -23,7 +23,8 @@ def incourse():
             
             #if request.method == 'POST':
                 ee = request.form.get('course_id')
-                eee = request.form.get('idd')
+                #eee = request.form.get('idd')
+                eee = 1
                 #request.form['submit_button'] == 'Do Something':
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()
@@ -33,10 +34,10 @@ def incourse():
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()      
   
-                cur.execute("SELECT course_id,course_code,course_name,level_id,credit FROM course where dep_id = (select dep_id from user where id = (?) ) " ,(eee))
+                cur.execute("SELECT course_id,course_code,course_name,level_id,credit FROM course where dep_id = (select dep_id from user where id  = '%s' ) " % (eee))
                 data = cur.fetchall()
                 
-                cur.execute("SELECT course.course_code, course.course_name FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = (?) " ,(eee))
+                cur.execute("SELECT course.course_code, course.course_name FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (eee))
                 data2 = cur.fetchall()
                 con.commit()
                 con.close()
