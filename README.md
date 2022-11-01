@@ -71,10 +71,10 @@ Current: 4 hours per week
 
 [Link](https://cgu0-my.sharepoint.com/:w:/g/personal/naif_alblawi_cgu_edu/ETbM1UMhSCBIk1TWXlAk8RgB1zL2sjUGkMI1gdLABZNXiQ?e=b1Bibx)
 
-# Instructions for Visual Studio Code:
 
-# Instruction to virtual environment:
 
+# Instruction to Run the Website:
+After downloding the files go to the dirctery then follow the instructions.
 ### For windows user:
 1. python3 -m venv venv # create the venv
 2. venv\scripts\activate.bat # activate venv
@@ -97,9 +97,9 @@ source venv/bin/activate
 
 
 ## Testing the web page: 
-###For windows: 
+### For windows: 
 python -m pytest test.py
 
-###For MacOS and Linux user: 
+### For MacOS and Linux user: 
 pytest test.py
 
