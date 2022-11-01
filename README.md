@@ -96,7 +96,7 @@ source venv/bin/activate
 4. python main.py
 
 
-## Testing the web page: 
+## Testing the Website: 
 ### For windows: 
 python -m pytest test.py
 
