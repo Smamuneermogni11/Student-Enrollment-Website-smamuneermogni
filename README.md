@@ -30,7 +30,7 @@ Lecturers, Students, Regustration Staff Members, Regustration Managers, Head Off
 
 Backend: Database Backbone (Create Tables, Users Table and rols)  
 
-Frontend: Web Page (Main: login page ,Student: Enrolment, Student: Courses Plan, Student: future Courses Plan, Lecturer: Timetable, Lecturer: Student Lists)
+Frontend: Web Page (Main: login page , Sginup page, Student: Enrolment, Student: Avalible Courses , Add Lecturer: , Add ClassRoom)
 
 ## 2 Iterations for Milestone 1 (4 weeks):
 Iteration 1 (2 weeks): 
