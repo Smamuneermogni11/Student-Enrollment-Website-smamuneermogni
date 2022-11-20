@@ -58,7 +58,42 @@ def saverloc():
                 data6 = cur.fetchall()
     return render_template("add_loc.html",data6=data6)
 
-#cursor.execute("INSERT into lec (name, email) values (?,?)",(name, email))
+@auth.route("/del_lec",methods = ["POST","GET"])
+def del_lec():
+    if request.method=='GET':
+        con = sqlite3.connect("instance/db.sqlite")
+        cur = con.cursor()
+        cur.execute("SELECT * FROM lec")
+        data6 = cur.fetchall()
+        return render_template('add_lec.html',data6=data6)
+    else: 
+                lecid = request.form["lecid"]
+                
+                con = sqlite3.connect("instance/db.sqlite")
+                cur = con.cursor()         
+                cur.execute("DELETE FROM lec WHERE lec_id = '%s'  " % (lecid))
+                con.commit()
+                cur.execute("SELECT * FROM lec")
+                data6 = cur.fetchall()
+    return render_template("add_lec.html",data6=data6)
+@auth.route("/del_loc",methods = ["POST","GET"])
+def del_loc():
+    if request.method=='GET':
+        con = sqlite3.connect("instance/db.sqlite")
+        cur = con.cursor()
+        cur.execute("SELECT * FROM loc")
+        data6 = cur.fetchall()
+        return render_template('add_loc.html',data6=data6)
+    else: 
+                locid = request.form["locid"]
+                
+                con = sqlite3.connect("instance/db.sqlite")
+                cur = con.cursor()         
+                cur.execute("DELETE FROM loc WHERE loc_id = '%s'  " % (locid))
+                con.commit()
+                cur.execute("SELECT * FROM loc")
+                data6 = cur.fetchall()
+    return render_template("add_loc.html",data6=data6)
 @auth.route('/login', methods=['GET', 'POST']) 
 def login(): 
     if request.method=='GET': 

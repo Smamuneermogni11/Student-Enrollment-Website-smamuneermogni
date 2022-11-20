@@ -42,21 +42,27 @@
  </table>
  <br> <h1>{{msg}}</h1><br><br>
  <h1>Lecturer Information</h1>
- <table id="table_to_highlight" style="width:100%">
-    <thead>
-      <tr>     
-        <th>Lecturer Name</th>
-        <th>Lecturer Email</th>
-      </tr>
-      </thead>    
-      <tbody>
-       {% for row in data6 %}    
-              <tr>                   
-                  <td>{{row[1]}}</td>
-                  <td>{{row[2]}}</td>
-              </tr>
-          {% endfor %}
-      </tbody>
-  </table>
+</form>
+ <form method="post" action="/del_lec">
+    <table id="table_to_highlight" style="width:100%">
+        <thead>
+          <tr>     
+            <th>Lecturer Name</th>
+            <th>Lecturer Email</th>
+          </tr>
+          </thead>    
+          <tbody>
+           {% for row in data6 %}    
+                  <tr>                   
+                      <td>{{row[1]}}</td>
+                      <td>{{row[2]}}</td>
+                      <td><button class="bi bi-plus" type="submit" value="{{ row[0] }}" name="lecid">X</button></td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+      </table>
  </form>
+ 
+
+
 {% endblock %}
