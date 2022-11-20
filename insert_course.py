@@ -37,9 +37,35 @@ def incourse():
                 cur.execute("SELECT course_id,course_code,course_name,level_id,credit FROM course where dep_id = (select dep_id from user where id  = '%s' ) " % (eee))
                 data = cur.fetchall()
                 
-                cur.execute("SELECT course.course_code, course.course_name FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (eee))
+                cur.execute("SELECT course.course_id, course.course_code, course.course_name FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (eee))
                 data2 = cur.fetchall()
                 con.commit()
                 con.close()
                 return render_template('student_course_enrolment.html',data=data,data2=data2, idd = current_user.id,name= current_user.name)
 
+
+@insert_course.route('/delcourse', methods=['GET', 'POST']) 
+def delcourse():
+        #with app.app_context():
+            
+            #if request.method == 'POST':
+                course_id = request.form.get('course_id_del')
+                #eee = request.form.get('idd')
+                user_id = 1
+                #request.form['submit_button'] == 'Do Something':
+                con = sqlite3.connect("instance/db.sqlite")
+                cur = con.cursor()
+                query = "DELETE FROM Time_table WHERE user_id = ? and course_id = ?"
+                cur.execute(query,(user_id, course_id))
+                con.commit()
+                con = sqlite3.connect("instance/db.sqlite")
+                cur = con.cursor()      
+  
+                cur.execute("SELECT course_id,course_code,course_name,level_id,credit FROM course where dep_id = (select dep_id from user where id  = '%s' ) " % (user_id))
+                data = cur.fetchall()
+                
+                cur.execute("SELECT course.course_id, course.course_code, course.course_name FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (user_id))
+                data2 = cur.fetchall()
+                con.commit()
+                con.close()
+                return render_template('student_course_enrolment.html',data=data,data2=data2, idd = current_user.id,name= current_user.name)
