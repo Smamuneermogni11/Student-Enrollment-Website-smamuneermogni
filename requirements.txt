@@ -4,3 +4,4 @@ flask-login
 werkzeug
 pandas
 pytest
+fpdf

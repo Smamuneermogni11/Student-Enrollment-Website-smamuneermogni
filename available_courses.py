@@ -18,23 +18,23 @@ from flask import Flask
 available_courses = Blueprint('available_courses', __name__)
 app = Flask(__name__)
 
-@available_courses.route('/student_course_enrolment', methods=['GET', 'POST']) 
+
+@available_courses.route('/student_course_enrolment/', methods=['GET', 'POST']) 
 def student_course_enrolment():
     with app.app_context():
-        #if request.method == 'GET':
-                #ee = request.form.get('course_id')
-        #eee = request.form.get('idd')
-        
+
+        user_id =  request.args.get('iddt')        
         con = sqlite3.connect("instance/db.sqlite")
         cur = con.cursor()      
-        #eee = request.form.get('idd').first()
-        cur.execute("SELECT course_id,course_code,course_name,level_id,credit FROM course where dep_id = (select dep_id from user where id = '%s' ) " % (1))
-        #cur.execute("SELECT course_id,course_code,course_name,level_id,credit FROM course where dep_id = (select dep_id from user where id = (?) ) " ,(1))
+        cur.execute("SELECT course_id, course_code, course_name, level_id, credit FROM course p WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s') AND dep_id = (select dep_id from user where id  = '%s' )" % (user_id,user_id))
         data = cur.fetchall()
-        
+        cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (user_id))
+        data2 = cur.fetchall()
+        cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (user_id))
+        dataC = cur.fetchall()
         con.commit()
         con.close()
-        #flash (eee)
-    return render_template('student_course_enrolment.html', data=data, idd = current_user.id,name= current_user.name)
+
+    return render_template('student_course_enrolment.html', data=data,data2=data2, idd = current_user.id,name= current_user.name,dataC=dataC)
 
   

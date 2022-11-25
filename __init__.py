@@ -32,4 +32,7 @@ def create_app():
     from insert_course import insert_course as main_blueprint
     app.register_blueprint(main_blueprint)
 
+    from admin_enrolment import admin_enrolment as main_blueprint
+    app.register_blueprint(main_blueprint)
+
     return app
