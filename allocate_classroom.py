@@ -14,7 +14,10 @@ from flask_login import login_required, current_user
 from __init__ import create_app, db
 import sqlite3
 from flask import Flask
-from fpdf import FPDF
+
+
+
+
 allocate_classroom = Blueprint('allocate_classroom', __name__)
 app = Flask(__name__)
 @allocate_classroom.route('/allocate_classroom', methods=['GET', 'POST']) 
