@@ -102,4 +102,3 @@ python -m pytest test.py
 
 ### For MacOS and Linux user: 
 pytest test.py
-
