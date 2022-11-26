@@ -29,5 +29,65 @@
     }
   </style>
 <h1>Allocate Classroom</h1>
- 
+<Form >
+    {% if error %}  
+    <p style="color:red"><strong>{{error}}</strong></p>  
+    {% endif %}  
+  </Form>
+        
+          <script>
+            if (sessionStorage.getItem("selectedOption")) {
+  //to set the selected value:
+  var select = document.getElementById("classroom");
+  select.selectedIndex = sessionStorage.getItem("selectedOption"); // set index of selected element
+}
+
+//this will set the value to sessionStorage only when user clicks submit
+document.getElementById("c_form").addEventListener("submit", () => {
+  //to get the selected value:
+  var select = document.getElementById("classroom");
+  sessionStorage.setItem("selectedOption", select.selectedIndex); // store index of selected element
+});
+          </script>
+
+       <form id = "c_form" method="post" action="/allocate_classroomf">
+        <p style="font-family:verdana">
+            Choose Classroom:<SELECT name="classroom" style="font-family:verdana" id="classroom">
+            {% for j in classroom %}
+                <OPTION  value={{j[0]}}>{{j[2]}} Capacity: {{j[1]}} </OPTION>
+            {% endfor %}
+            </SELECT>
+            <input type="submit" value="Submit">
+            </p>
+        <table id="classcourses" class="table table-striped table-bordered table-sm"  cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Course ID</th>     
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Course Credit</th>
+                <th>Day</th>
+                <th>From</th>      
+                <th>To</th>
+                <th>Classroom</th>
+                
+              </tr>
+              </thead>    
+              <tbody>
+               {% for row in courses %}    
+                      <tr>
+                        <td><input type="hidden" name="title" value="{{ row[0] }}"> {{ row[0] }} </td>               
+                          <td>{{row[1]}}</td>
+                          <td>{{row[2]}}</td>
+                          <td>{{row[3]}}</td>
+                          <td>{{row[4]}}</td>
+                          <td>{{row[5]}}</td>
+                          <td>{{row[6]}}</td>
+                          <td>{{row[7]}}</td>
+                          <td><button class="bi bi-plus" type="submit" value="{{ row[0] }}" name="course_id">+</button></td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+       </form>
 {% endblock %}

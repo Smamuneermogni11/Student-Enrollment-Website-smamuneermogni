@@ -17,22 +17,41 @@ from flask import Flask
 from fpdf import FPDF
 allocate_classroom = Blueprint('allocate_classroom', __name__)
 app = Flask(__name__)
-@allocate_classroom.route('/allocate_classroom', methods=['GET', 'POST']) 
-def allocate_classroom():
+@allocate_classroom.route('/allocate_classroomf', methods=['GET', 'POST']) 
+def allocate_classroomf():
+    with app.app_context():
+       
+        con = sqlite3.connect("instance/db.sqlite")
+        cur = con.cursor()
+        cur.execute("SELECT * FROM loc")
+       
+        classroom = cur.fetchall()
+        con.commit()
+        cur.execute("SELECT * FROM classroom_view")
+        courses = cur.fetchall()
+        course_id = request.form.get('course_id')
+        con.commit()
+        
+        loc_id = request.form.get('classroom')
+        print("loc_idss")
+        print(loc_id)
 
-                #course_id = request.form.get('course_id')
-                con = sqlite3.connect("instance/db.sqlite")
-                cur = con.cursor()
-                cur.execute("SELECT * FROM loc")
-
-                dataC = cur.fetchall()
-                
-                con.commit()
-                con.close()
-              
 
 
 
 
-                
-                return render_template('allocate_classroom.html', idd = current_user.id,name= current_user.name,dataC=dataC)
+
+        cur.execute("UPDATE  course set loc_id = ? where course_id = ? " , (loc_id, course_id))
+        con.commit()
+        cur.execute("SELECT * FROM classroom_view")
+        courses = cur.fetchall()
+        con.commit()
+        con.close()
+     
+       
+
+    return render_template('allocate_classroom.html', classroom=classroom,courses=courses)
+
+
+    
+
