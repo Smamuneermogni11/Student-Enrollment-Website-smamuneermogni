@@ -19,7 +19,7 @@ available_courses = Blueprint('available_courses', __name__)
 app = Flask(__name__)
 
 
-@available_courses.route('/student_course_enrolment/', methods=['GET', 'POST']) 
+@available_courses.route('/student_course_enrolment', methods=['GET', 'POST']) 
 def student_course_enrolment():
     with app.app_context():
 

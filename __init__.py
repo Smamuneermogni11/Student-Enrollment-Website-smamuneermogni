@@ -34,6 +34,9 @@ def create_app():
 
     from admin_enrolment import admin_enrolment as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from allocate_classroom import allocate_classroom as main_blueprint
+    app.register_blueprint(main_blueprint)
     
 
     return app

@@ -47,20 +47,19 @@ JOIN
     course AS cp2 
     ON cp1.course_id = cp2.course_id
     
-      And (cp2.fromT >= cp1.fromT and cp2.fromT < cp1.toT)
-      OR (cp2.toT > cp1.fromT and cp2.toT <= cp1.toT)
-      OR (cp2.fromT <= cp1.fromT and cp2.toT >= cp1.toT)
-      and cp2.day_id = cp1.day_id
+      And (cp2.fromT >= cp1.fromT and cp2.fromT < cp1.toT AND cp2.day_id <> cp1.day_id)
+      OR (cp2.toT > cp1.fromT and cp2.toT <= cp1.toT AND cp2.day_id <> cp1.day_id)
+      OR (cp2.fromT <= cp1.fromT and cp2.toT >= cp1.toT AND cp2.day_id <> cp1.day_id)
       AND cp1.user_id = ?
       AND cp2.course_id = ? """, (user_id, course_id))
                 entry = cur.fetchone()
 
                 if entry is None:
                      cur.execute("insert into Time_table (user_id,course_id, Day_id, fromT, toT) values (?,?,(SELECT Day_id FROM course where course_id  = ?),(SELECT fromT FROM course where course_id  = ?),(SELECT toT FROM course where course_id  = ?))", (user_id, course_id,course_id,course_id,course_id) )
-                     error = "Course ADD"
+                     error = "The course has been added successfully."
                      #cour2 = ""
                 else:
-                    error = "Time Conflict"
+                    error = "There is a time conflict. Choose another course."
                     #id_tuple = tuple(entry[1])
                     #cur.execute("SELECT course_id, course_code, course_name FROM course WHERE course_id in {};".format(id_tuple))
                     #cour2 = cur.fetchall()
