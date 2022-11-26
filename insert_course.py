@@ -21,7 +21,7 @@ app = Flask(__name__)
 @insert_course.route('/incourse', methods=['GET', 'POST']) 
 def incourse():
         #with app.app_context():
-            
+                print('ins1')
             #if request.method == 'POST':
                 course_id = request.form.get('course_id')
                 #eee = request.form.get('idd')
@@ -57,9 +57,14 @@ JOIN
 
                 if entry is None:
                      cur.execute("insert into Time_table (user_id,course_id, Day_id, fromT, toT) values (?,?,(SELECT Day_id FROM course where course_id  = ?),(SELECT fromT FROM course where course_id  = ?),(SELECT toT FROM course where course_id  = ?))", (user_id, course_id,course_id,course_id,course_id) )
+                     error = "Course ADD"
+                     #cour2 = ""
                 else:
-                    print ('nnn')
-
+                    error = "Time Conflict"
+                    #id_tuple = tuple(entry[1])
+                    #cur.execute("SELECT course_id, course_code, course_name FROM course WHERE course_id in {};".format(id_tuple))
+                    #cour2 = cur.fetchall()
+            
                 #cur.execute("insert into Time_table (user_id,course_id, Day_id, fromT, toT) values (?,?,(SELECT Day_id FROM course where course_id  = ?),(SELECT fromT FROM course where course_id  = ?),(SELECT toT FROM course where course_id  = ?))", (user_id, course_id,course_id,course_id,course_id) )
                 cur.close()
                 con.commit()
@@ -67,10 +72,10 @@ JOIN
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()      
 
-                cur.execute("SELECT course_id, course_code, course_name, level_id, credit FROM course p WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s') AND dep_id = (select dep_id from user where id  = '%s') " % (user_id,user_id))
+                cur.execute("SELECT course_id, course_code, course_name, level_id, credit , Day_id , FromT, Tot FROM course p WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s') AND dep_id = (select dep_id from user where id  = '%s') " % (user_id,user_id))
                 data = cur.fetchall()
                 
-                cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (user_id))
+                cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit, course.day_id ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (user_id))
                 data2 = cur.fetchall()
                 cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (user_id))
                 dataC = cur.fetchall()
@@ -83,7 +88,7 @@ JOIN
 
 
                 
-                return render_template('student_course_enrolment.html',data=data,data2=data2, idd = current_user.id,name= current_user.name,dataC=dataC)
+                return render_template('student_course_enrolment.html',data=data,data2=data2, idd = current_user.id,name= current_user.name,dataC=dataC,error=error)
 
 
 @insert_course.route('/delcourse', methods=['GET', 'POST']) 
@@ -104,11 +109,11 @@ def delcourse():
                 con.commit()
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()      
-                cur.execute("SELECT course_id, course_code, course_name, level_id, credit FROM course p WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s') AND dep_id = (select dep_id from user where id  = '%s' ) " % (user_id,user_id))
+                cur.execute("SELECT course_id, course_code, course_name, level_id, credit , Day_id , FromT, Tot FROM course p WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s') AND dep_id = (select dep_id from user where id  = '%s' ) " % (user_id,user_id))
                 #cur.execute("SELECT course_id,course_code,course_name,level_id,credit FROM course where dep_id = (select dep_id from user where id  = '%s' ) " % (user_id))
                 data = cur.fetchall()
                 
-                cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (user_id))
+                cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit, course.day_id ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (user_id))
                 data2 = cur.fetchall()
                 cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (user_id))
                 dataC = cur.fetchall()
@@ -119,21 +124,28 @@ def delcourse():
 def download_report():
     con = sqlite3.connect("instance/db.sqlite")
     cur = con.cursor()
+    print('ins3')
     
     try:
-        #user_id = request.form.get('iddh',None)
-        #user_id =  request.args.get('iddh',type=int) 
+
   
         user_id = current_user.id
-        #query= "SELECT * FROM TimeTablePDF where user_id = '%s'"
-        #val = (1)
-        #cur.execute(query,1)
+
 
         cur.execute("SELECT * FROM TimeTablePDF where user_id = '%s'" % (user_id))
+        
+        
         con.commit()
-        #cur.execute("SELECT * FROM course")
+
         result = cur.fetchall()
- 
+        cur.execute("SELECT sum(credit) as cc FROM TimeTablePDF where user_id = '%s'" % (user_id))
+        con.commit()
+
+        credit = cur.fetchall()
+        cur.execute("SELECT distinct name FROM TimeTablePDF where user_id = '%s'" % (user_id))
+        con.commit()
+
+        name = cur.fetchall()
         pdf = FPDF()
         pdf.add_page()
          
@@ -142,25 +154,50 @@ def download_report():
         pdf.set_font('Times','B',14.0) 
         pdf.cell(page_width, 0.0, 'Time Table', align='C')
         pdf.ln(10)
+        th = pdf.font_size
+
+        for row in name:
+            pdf.set_font('Times','B',12.0) 
+            pdf.cell(25, th, 'Name', border=1)
+            pdf.set_font('Times','',12.0) 
+            pdf.cell(95, th, row[0], border=1)
+        pdf.ln(10)
  
-        pdf.set_font('Courier', '', 12)
+        pdf.set_font('Times', 'B', 12)
          
         #col_width = page_width/4
          
         pdf.ln(1)
          
+        
+        pdf.cell(25, th, 'Code', border=1)
+        pdf.cell(95, th, 'Name', border=1)
+        pdf.cell(17, th, 'Credit', border=1)
+        pdf.cell(22, th, 'Day', border=1)
+        pdf.cell(15, th, 'From', border=1)
+        pdf.cell(15, th, 'To', border=1)
+        pdf.ln(th)
+        pdf.set_font('Times', '', 12)
         th = pdf.font_size
-         
         for row in result:
             #pdf.cell(col_width, th, str(row[0]), border=1)
-            pdf.cell(30, th, row[1], border=1)
-            pdf.cell(100, th, row[2], border=1)
-            pdf.cell(10, th, str(row[3]), border=1)
-            pdf.cell(10, th, str(row[4]), border=1)
+            pdf.cell(25, th, row[1], border=1)
+            pdf.cell(95, th, row[2], border=1)
+            pdf.cell(17, th, str(row[3]), border=1)
+            pdf.cell(22, th, row[4], border=1)
+            pdf.cell(15, th, str(row[5]), border=1)
+            pdf.cell(15, th, str(row[6]), border=1)
             pdf.ln(th)
          
         pdf.ln(10)
-         
+        
+        for row in credit:
+            pdf.set_font('Times','B',12.0) 
+            pdf.cell(25, th, 'Total Credit', border=1)
+            pdf.set_font('Times','',12.0) 
+            pdf.cell(15, th,str(row[0]), border=1)
+        pdf.ln(10)
+
         pdf.set_font('Times','',10.0) 
         pdf.cell(page_width, 0.0, '- end of report -', align='C')
         

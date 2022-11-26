@@ -83,6 +83,9 @@
             <th>Course Code</th>
             <th>Course Name</th>
             <th>Course Credit</th>
+            <th>Day</th>
+            <th>From</th>      
+            <th>To</th>
           </tr>
           </thead>    
           <tbody>
@@ -91,6 +94,9 @@
                       <td>{{row[1]}}</td>
                       <td>{{row[2]}}</td>
                       <td>{{row[3]}}</td>
+                      <td>{{row[4]}}</td>
+                      <td>{{row[5]}}</td>
+                      <td>{{row[6]}}</td>
                       <td><button class="bi bi-plus" type="submit" value="{{ row[0] }}" name="course_id_del">X</button></td>
                       
                   </tr>
@@ -110,6 +116,14 @@
     </p>
 </form>
 {% endif %}
+
+
+<Form >
+  {% if error %}  
+  <p style="color:red"><strong>{{error}}</strong></p>  
+  {% endif %}  
+</Form>
+
 &nbsp;
 &nbsp;
 <hr>
@@ -129,7 +143,10 @@
         <th>Course Code</th>
         <th>Course Name</th>
         <th>Level</th>      
-        <th>Cedit</th>
+        <th>Credit</th>
+        <th>Day</th>
+        <th>From</th>      
+        <th>To</th>
       </tr>
       </thead>    
       <tbody>
@@ -140,6 +157,9 @@
                   <td>{{row[2]}}</td>
                   <td>{{row[3]}}</td>
                   <td>{{row[4]}}</td>
+                  <td>{{row[5]}}</td>
+                  <td>{{row[6]}}</td>
+                  <td>{{row[7]}}</td>
                   <td><button class="bi bi-plus" type="submit" value="{{ row[0] }}" name="course_id">+</button></td>
                   
               </tr>

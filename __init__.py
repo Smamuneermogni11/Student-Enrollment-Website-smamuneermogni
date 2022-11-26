@@ -34,5 +34,6 @@ def create_app():
 
     from admin_enrolment import admin_enrolment as main_blueprint
     app.register_blueprint(main_blueprint)
+    
 
     return app
