@@ -37,6 +37,13 @@ def create_app():
 
     from allocate_classroom import allocate_classroom as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from allocate_lecturer import allocate_lecturer as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from add_course import add_course as main_blueprint
+    app.register_blueprint(main_blueprint)
+    
     
 
     return app

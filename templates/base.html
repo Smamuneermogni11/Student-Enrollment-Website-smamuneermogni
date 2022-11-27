@@ -63,13 +63,15 @@
                     Admin
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{{ url_for('auth.saveRecord') }}">Add Lecturer</a>
+                  <a class="dropdown-item" href="{{ url_for('add_course.add_coursef') }}">Edit Course</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ url_for('auth.saverloc') }}">Add Class Room</a>
+                    <a class="dropdown-item" href="{{ url_for('auth.saverloc') }}">Edit Class Room</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ url_for('admin_enrolment.adstudent') }}">Enrolment Students</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ url_for('allocate_classroom.allocate_classroomf') }}">Allocate Classroom</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ url_for('allocate_lecturer.allocate_lecturerf') }}">Allocate lecturer</a>
                 </div>
               </li>
             </form>

@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style type="text/css">
+    body {
+        text-align: center;
+    }
+  
+    h1 {
+        color: green;
+    }
+  
+    /* Basic CSS to design table */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+  
+    th,
+    td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+  
+    /* CSS command for the row to highlight */
+    .highlight {
+        background-color: #b8b8b8;
+    }
+  </style>
+<h1>Edit Courses</h1>
+ <form action = "/add_coursef" method="post">
+
+ <table>
+
+  <tr><td>Course Code</td><td><input type="text" name="CourseCode" ></td></tr>
+  <tr><td>Course Name</td><td><input type="text" name="CourseName"></td></tr>
+  <tr><td>Course Description</td><td><input type="text" name="CourseDescription"></td></tr>
+  <tr><td>Department</td><td><SELECT name="Department" style="font-family:verdana" id="Department">
+    {% for j in Department %}
+        <OPTION  value={{j[0]}}>{{j[1]}}</OPTION>
+    {% endfor %}
+    </SELECT></td></tr>
+
+        <tr><td>Plan:</td><td><SELECT name="Plan" style="font-family:verdana" id="Plan">
+
+            <OPTION  value='1'>1</OPTION>
+            <OPTION  value='2'>2</OPTION>
+            <OPTION  value='3'>3</OPTION>
+        </SELECT></td></tr>
+
+       
+        <tr><td>Level</td><td><SELECT name="Level" style="font-family:verdana" id="Level">
+    
+                <OPTION  value='1'>1</OPTION>
+                <OPTION  value='2'>2</OPTION>
+                <OPTION  value='3'>3</OPTION>
+                <OPTION  value='4'>4</OPTION>
+                <OPTION  value='5'>5</OPTION>
+                <OPTION  value='6'>6</OPTION>
+                <OPTION  value='7'>7</OPTION>
+                <OPTION  value='8'>8</OPTION>
+            </SELECT></td></tr>
+
+  <tr><td>Course Credit</td><td><input type="number" name="Credit" ></td></tr>
+
+  
+  <tr><td>Day</td><td><SELECT name="Day" style="font-family:verdana" id="Day">
+    {% for j in Day %}
+        <OPTION  value={{j[0]}}>{{j[1]}}</OPTION>
+    {% endfor %}
+    </SELECT></td></tr>
+ 
+    <tr><td>From</td><td><SELECT name="From" style="font-family:verdana" id="From">
+        {% for j in From %}
+            <OPTION  value={{j[1]}}>{{j[1]}}</OPTION>
+        {% endfor %}
+    </SELECT></td></tr>
+       
+        <tr><td>To</td><td><SELECT name="To" style="font-family:verdana" id="To">
+            {% for j in To %}
+                <OPTION  value={{j[1]}}>{{j[1]}}</OPTION>
+            {% endfor %}
+        </SELECT></td></tr>
+        <tr><td>Semester</td><td><SELECT name="Semester" style="font-family:verdana" id="Semester">
+                        {% for j in Semester %}
+                            <OPTION  value={{j[0]}}>{{j[1]}}</OPTION>
+                        {% endfor %}
+                    </SELECT></td></tr>
+  <tr><td></td><td><input type="submit" value="Add"></td></tr>
+                   
+ </table>
+</form>
+ <h1>Courses</h1>
+ <form method="post" action="/del_course">
+    <table id="table_to_highlight" style="width:100%">
+        <thead>
+          <tr>
+            <th>Course ID</th>
+            <th>Course Code</th>     
+            <th>Course Name</th>
+            <th>Course Description</th>
+            <th>Department</th>
+            <th>Course Plan</th>
+            <th>Course Level</th>
+            <th>Course Credit</th>
+            <th>Day</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Semester</th>
+            
+            
+          </tr>
+          </thead>    
+          <tbody>
+           {% for row in data6 %}    
+                  <tr>                   
+                      <td>{{row[0]}}</td>
+                      <td>{{row[1]}}</td>
+                      <td>{{row[2]}}</td>
+                      <td>{{row[3]}}</td>
+                      <td>{{row[4]}}</td>
+                      <td>{{row[5]}}</td>
+                      <td>{{row[6]}}</td>
+                      <td>{{row[7]}}</td>
+                      <td>{{row[8]}}</td>
+                      <td>{{row[9]}}</td>
+                      <td>{{row[10]}}</td>
+                      <td>{{row[11]}}</td>
+                      <td><button class="bi bi-plus" type="submit" value="{{ row[0] }}" name="CourseID">X</button></td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+ </form>
+ 
+
+
+{% endblock %}

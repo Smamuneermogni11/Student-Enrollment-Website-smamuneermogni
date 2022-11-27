@@ -23,6 +23,7 @@ def incourse():
         #with app.app_context():
                 print('ins1')
             #if request.method == 'POST':
+                SEM = 223
                 course_id = request.form.get('course_id')
                 #eee = request.form.get('idd')
                 user_id = request.form.get('iddv',type=int)
@@ -36,26 +37,27 @@ def incourse():
     cp1.course_id AS CP1_course_id,
     cp1.fromT AS CP1_fromT,
     cp1.toT AS CP1_toT,
-
+    cp1.SEM AS CP1_SEm,
     cp2.Day_id AS CP2_Day_id,
     cp2.course_id AS CP2_course_id,
     cp2.fromT AS CP2_fromT,
-    cp2.toT AS CP2_toT
+    cp2.toT AS CP2_toT,
+    cp2.SEM AS CP2_SEm
 FROM 
     Time_table AS cp1
 JOIN
     course AS cp2 
-    ON cp1.course_id = cp2.course_id
+    ON cp2.course_id = cp1.course_id AND cp2.SEM = cp1.SEM 
     
-      And (cp2.fromT >= cp1.fromT and cp2.fromT < cp1.toT AND cp2.day_id <> cp1.day_id)
-      OR (cp2.toT > cp1.fromT and cp2.toT <= cp1.toT AND cp2.day_id <> cp1.day_id)
-      OR (cp2.fromT <= cp1.fromT and cp2.toT >= cp1.toT AND cp2.day_id <> cp1.day_id)
-      AND cp1.user_id = ?
-      AND cp2.course_id = ? """, (user_id, course_id))
+      And (cp2.fromT >= cp1.fromT and cp2.fromT < cp1.toT AND  cp1.fromT <= cp2.fromT and cp2.day_id = cp1.day_id)
+      OR (cp2.toT > cp1.fromT and cp2.toT <= cp1.toT AND cp1.fromT <= cp2.fromT and cp2.day_id = cp1.day_id )
+      OR (cp2.fromT <= cp1.fromT and cp2.toT >= cp1.toT AND cp1.fromT <= cp2.fromT and cp2.day_id = cp1.day_id)
+     
+      where cp2.course_id = ? AND  cp1.user_id = ? AND cp1.SEM = ?   """, (course_id,user_id,SEM))
                 entry = cur.fetchone()
-
+                
                 if entry is None:
-                     cur.execute("insert into Time_table (user_id,course_id, Day_id, fromT, toT) values (?,?,(SELECT Day_id FROM course where course_id  = ?),(SELECT fromT FROM course where course_id  = ?),(SELECT toT FROM course where course_id  = ?))", (user_id, course_id,course_id,course_id,course_id) )
+                     cur.execute("insert into Time_table (user_id,course_id, Day_id, fromT, toT,SEM) values (?,?,(SELECT Day_id FROM course where course_id  = ?),(SELECT fromT FROM course where course_id  = ?),(SELECT toT FROM course where course_id  = ?),?)", (user_id, course_id,course_id,course_id,course_id,SEM) )
                      error = "The course has been added successfully."
                      #cour2 = ""
                 else:
@@ -71,12 +73,12 @@ JOIN
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()      
 
-                cur.execute("SELECT course_id, course_code, course_name, level_id, credit , Day_id , FromT, Tot FROM course p WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s') AND dep_id = (select dep_id from user where id  = '%s') " % (user_id,user_id))
+                cur.execute("SELECT course_id, course_code, course_name, level_id, credit , Day_id , FromT, Tot FROM course p WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s' and od.sem = '%s' ) AND dep_id = (select dep_id from user where id  = '%s') " % (user_id,SEM, user_id))
                 data = cur.fetchall()
                 
-                cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit, course.day_id ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (user_id))
+                cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit, course.day_id ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' " % (user_id,SEM))
                 data2 = cur.fetchall()
-                cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (user_id))
+                cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' " % (user_id, SEM))
                 dataC = cur.fetchall()
                 
                 con.commit()
@@ -93,7 +95,7 @@ JOIN
 @insert_course.route('/delcourse', methods=['GET', 'POST']) 
 def delcourse():
         #with app.app_context():
-            
+                SEM = 223
             #if request.method == 'POST':
                 course_id = request.form.get('course_id_del')
                 #eee = request.form.get('iddc')
@@ -103,18 +105,18 @@ def delcourse():
                 #request.form['submit_button'] == 'Do Something':
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()
-                query = "DELETE FROM Time_table WHERE user_id = ? and course_id = ?"
-                cur.execute(query,(user_id, course_id))
+                query = "DELETE FROM Time_table WHERE user_id = ? and course_id = ? and SEM = ?"
+                cur.execute(query,(user_id, course_id, SEM))
                 con.commit()
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()      
-                cur.execute("SELECT course_id, course_code, course_name, level_id, credit , Day_id , FromT, Tot FROM course p WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s') AND dep_id = (select dep_id from user where id  = '%s' ) " % (user_id,user_id))
+                cur.execute("SELECT course_id, course_code, course_name, level_id, credit , Day_id , FromT, Tot FROM course p WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s' and od.sem = '%s') AND dep_id = (select dep_id from user where id  = '%s' ) " % (user_id,SEM,user_id))
                 #cur.execute("SELECT course_id,course_code,course_name,level_id,credit FROM course where dep_id = (select dep_id from user where id  = '%s' ) " % (user_id))
                 data = cur.fetchall()
                 
-                cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit, course.day_id ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (user_id))
+                cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit, course.day_id ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s'" % (user_id,SEM))
                 data2 = cur.fetchall()
-                cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s'" % (user_id))
+                cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s'" % (user_id, SEM))
                 dataC = cur.fetchall()
                 con.commit()
                 con.close()
@@ -123,7 +125,7 @@ def delcourse():
 def download_report():
     con = sqlite3.connect("instance/db.sqlite")
     cur = con.cursor()
-    print('ins3')
+    SEM = 223
     
     try:
 
@@ -131,17 +133,17 @@ def download_report():
         user_id = current_user.id
 
 
-        cur.execute("SELECT * FROM TimeTablePDF where user_id = '%s'" % (user_id))
+        cur.execute("SELECT * FROM TimeTablePDF where user_id = '%s' and SEM = '%s'" % (user_id, SEM))
         
         
         con.commit()
 
         result = cur.fetchall()
-        cur.execute("SELECT sum(credit) as cc FROM TimeTablePDF where user_id = '%s'" % (user_id))
+        cur.execute("SELECT sum(credit) as cc FROM TimeTablePDF where user_id = '%s' and SEM = '%s'" % (user_id, SEM))
         con.commit()
 
         credit = cur.fetchall()
-        cur.execute("SELECT distinct name FROM TimeTablePDF where user_id = '%s'" % (user_id))
+        cur.execute("SELECT distinct name FROM TimeTablePDF where user_id = '%s' and SEM = '%s' " % (user_id, SEM))
         con.commit()
 
         name = cur.fetchall()

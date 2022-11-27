@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style type="text/css">
+    body {
+        text-align: center;
+    }
+  
+    h1 {
+        color: green;
+    }
+  
+    /* Basic CSS to design table */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+  
+    th,
+    td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+  
+    /* CSS command for the row to highlight */
+    .highlight {
+        background-color: #b8b8b8;
+    }
+  </style>
+  <style>
+      .close-x {
+          display: inline-block;
+          width: 25px;
+          height: 25px;
+          border: 7px solid #f56b00;
+          background:
+              linear-gradient(45deg, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 43%,#fff 45%,#fff 55%,rgba(0,0,0,0) 57%,rgba(0,0,0,0) 100%),
+              linear-gradient(135deg, #f56b00 0%,#f56b00 43%,#fff 45%,#fff 55%,#f56b00 57%,#f56b00 100%);
+      }
+      .plus {
+    display: block;
+    height: 0.6em;
+    width: 0.6em;
+    font-size: 100px;
+    text-align: center;
+    line-height: 0.5em;
+    margin: 0;
+    padding: 0;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: lighter;
+    color: #ffffff;
+    background-color: #000000;
+  }
+  
+  .plus::before {
+    display: block;
+    content: '+';
+  }
+  </style>
+  &nbsp;
+  &nbsp;
+  &nbsp;
+  <h1> Hello {{name}} </h1>
+  &nbsp;
+  &nbsp;
+
+  <form method="post" action="/download/report/pdf">
+    <input type="hidden" name="iddb" value="{{idd}}">
+  </form>
+
+  <h1>lecturer Timetable</h1>
+  <form method="post" action="/delcourse">
+    <input type="hidden" name="iddc" value="{{idd}}">
+    <table id="table_to_highlight" style="width:100%">
+        <thead>
+          <tr>     
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Course Credit</th>
+            <th>Day</th>
+            <th>From</th>      
+            <th>To</th>
+          </tr>
+          </thead>    
+          <tbody>
+           {% for row in data2 %}    
+                  <tr>                   
+                      <td>{{row[1]}}</td>
+                      <td>{{row[2]}}</td>
+                      <td>{{row[3]}}</td>
+                      <td>{{row[4]}}</td>
+                      <td>{{row[5]}}</td>
+                      <td>{{row[6]}}</td>
+                      <td><button class="bi bi-plus" type="submit" value="{{ row[0] }}" name="course_id_del">X</button></td>
+                      
+                  </tr>
+              {% endfor %}
+          </tbody>
+          <tfoot>
+            {% for row in dataC %}
+            <tr>
+              <td><strong>Total Credit</strong></td>
+              <td>{{row[0]}}</td>
+            </tr>
+            {% endfor %}
+          </tfoot>
+      </table>
+      <p>
+        <a href="{{ url_for('student_course_enrolment.download_report', iddh = current_user.id) }}">Print TimeTable</a>
+    </p>
+</form>
+{% endif %}
+
+{% endblock %}
