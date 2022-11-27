@@ -49,7 +49,7 @@ Iteration 2 (2 weeks):
 
 ## Calculate Velocity for Milestone 1:
 
-Timeline: 4 weeks to milestone 1, 5 weeks to milestone 2
+Timeline: 4 weeks to milestone 1
 
 Iteration 1: 3 user stories x 8 story points = 24
 Iteration 2: 7 user stories x 8 story points = 56
@@ -77,11 +77,11 @@ Iteration 1: (4 weeks)
 
 3. Students have the ability to print Timetable
 
-5. Registration staff members have the ability to drop or enroll students in the course
+4. Registration staff members have the ability to drop or enroll students in the course
 
-6. Staff members can change location, time and lecturer for specific course
+5. Staff members can change location, time and lecturer for specific course
 
-7. Registration manager can check time conflict between locations, courses, students and lecturers.
+6. Registration manager can check time conflict between locations, courses, students and lecturers.
 
 Iteration 2: (5 weeks)
 
@@ -103,16 +103,16 @@ Iteration 2: (5 weeks)
 
 ## Calculate Velocity for Milestone 2:
 
-Timeline: 4 weeks to milestone 1, 5 weeks to milestone 2
+Timeline: 4 weeks to Iteration 1, 5 weeks to Iteration 2
 
-Iteration 1: 3 user stories x 8 story points = 24
-Iteration 2: 7 user stories x 8 story points = 56
+Iteration 1: 6 user stories x 8 story points = 48
+Iteration 2: 8 user stories x 8 story points = 64
 
-Total = 80
+Total = 112
 
-So, your average velocity is 80 ÷ 2 = 40.
+So, your average velocity is 112 ÷ 2 = 40.
 
-Starting velocity: 40 %
+Starting velocity: 56 %
 Total: 6 hours per week
 Current: 4 hours per week
 
