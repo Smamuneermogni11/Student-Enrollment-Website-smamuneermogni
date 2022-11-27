@@ -43,6 +43,12 @@ def create_app():
 
     from add_course import add_course as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from Timetable_lecturer import Timetable_lecturer as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from student_lists import student_lists as main_blueprint
+    app.register_blueprint(main_blueprint)
     
     
 

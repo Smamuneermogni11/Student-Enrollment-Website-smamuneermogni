@@ -72,17 +72,20 @@
   </form>
 
   <h1>lecturer Timetable</h1>
-  <form method="post" action="/Timetable_lecturerf">
+  <form method="post" action="/student_listsf">
     <input type="hidden" name="iddc" value="{{idd}}">
     <table id="table_to_highlight" style="width:100%">
         <thead>
           <tr>     
+            <th>Student ID</th>
+            <th>Student Name</th>
+            <th>Department</th>
             <th>Course Code</th>
             <th>Course Name</th>
-            <th>Course Credit</th>
             <th>Day</th>
             <th>From</th>      
             <th>To</th>
+            <th>Semester</th>
           </tr>
           </thead>    
           <tbody>
@@ -94,21 +97,16 @@
                       <td>{{row[3]}}</td>
                       <td>{{row[4]}}</td>
                       <td>{{row[5]}}</td>
+                      <td>{{row[6]}}</td>
+                      <td>{{row[7]}}</td>
+                      <td>{{row[8]}}</td>
                       
                   </tr>
               {% endfor %}
           </tbody>
-          <tfoot>
-            {% for row in dataC %}
-            <tr>
-              <td><strong>Total Credit</strong></td>
-              <td>{{row[0]}}</td>
-            </tr>
-            {% endfor %}
-          </tfoot>
       </table>
       <p>
-        <a href="{{ url_for('Timetable_lecturer.download_report', iddc = current_user.id) }}">Print TimeTable</a>
+        <a href="{{ url_for('student_lists.download_report', iddc = current_user.id) }}">Print list</a>
     </p>
 </form>
 
