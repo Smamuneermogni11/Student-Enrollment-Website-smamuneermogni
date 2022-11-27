@@ -38,8 +38,6 @@ def create_app():
     from admin_enrolment import admin_enrolment as main_blueprint
     app.register_blueprint(main_blueprint)
 
-<<<<<<< HEAD
-=======
     from allocate_classroom import allocate_classroom as main_blueprint
     app.register_blueprint(main_blueprint)
 
@@ -55,7 +53,6 @@ def create_app():
     from student_lists import student_lists as main_blueprint
     app.register_blueprint(main_blueprint)
     
->>>>>>> 5c978a83e84fdec38dd4331172eb913c2337ae16
     
 
 
