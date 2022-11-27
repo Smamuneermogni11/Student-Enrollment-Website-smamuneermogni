@@ -63,28 +63,49 @@
                     Admin
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{{ url_for('auth.saveRecord') }}">Add Lecturer</a>
+                  <a class="dropdown-item" href="{{ url_for('add_course.add_coursef') }}">Edit Course</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ url_for('auth.saverloc') }}">Add Class Room</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ url_for('admin_enrolment.adstudent') }}">Enrolment Students</a>
+                    <a class="dropdown-item" href="{{ url_for('auth.saverloc') }}">Edit Class Room</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ url_for('admin_enrolment.adstudent') }}">Enrolment Students</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ url_for('allocate_classroom.allocate_classroomf') }}">Allocate Classroom</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ url_for('allocate_lecturer.allocate_lecturerf') }}">Allocate lecturer</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ url_for('student_lists.student_listsf') }}">Student_lists</a>
                 </div>
               </li>
             </form>
-              {% elif current_user.is_authenticated  %}
-              <form method="post" action="/student_course_enrolment">
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Enrolment
+        
+            {% elif current_user.is_authenticated and current_user.rol_id == 2 %}
+            <form method="post" action="/Timetable_lecturer">
+            
+            
+             
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Admin
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{{ url_for('available_courses.student_course_enrolment', iddt = current_user.id) }}" >Enrolment</a>
-                  
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ url_for('Timetable_lecturer.Timetable_lecturerf', iddc = current_user.id) }}">lecturer TimeTable</a>
                 </div>
               </li>
             </form>
+              
+            {% elif current_user.is_authenticated  %}
+            <form method="post" action="/student_course_enrolment">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Enrolment
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ url_for('available_courses.student_course_enrolment', iddc = current_user.id) }}" >Enrolment</a>
+                
+              </div>
+            </li>
+          </form>
               {% endif %}
         </div>
     </div>

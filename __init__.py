@@ -38,6 +38,24 @@ def create_app():
     from admin_enrolment import admin_enrolment as main_blueprint
     app.register_blueprint(main_blueprint)
 
+<<<<<<< HEAD
+=======
+    from allocate_classroom import allocate_classroom as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from allocate_lecturer import allocate_lecturer as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from add_course import add_course as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from Timetable_lecturer import Timetable_lecturer as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from student_lists import student_lists as main_blueprint
+    app.register_blueprint(main_blueprint)
+    
+>>>>>>> 5c978a83e84fdec38dd4331172eb913c2337ae16
     
 
 

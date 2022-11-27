@@ -137,6 +137,7 @@ def signup():
         return redirect(url_for('auth.login'))
 
 
+
 @auth.route('/logout') 
 @login_required
 def logout(): 
