@@ -67,9 +67,9 @@ Backend: course information, drop and select courses, course plan, future course
 
 Frontent: Manager: Report print, Manager: Time conflict check button, Staff: Student report button (student id), Staff: Student Report button(semester wise search and print mode), Staff: Edit course(print button), Staff: Student enrollment button, Staff: Course information, Lecturer: student list button, Lecturer: Timetable button, Student: course plan print, Student: future course plan, Student: Enrollment button.
 
-## There are two Iterations for Milestone 2 (Total: 9 weeks):
+## There are two Iterations for Milestone 2 (Total: 5 weeks):
 
-Iteration 1: (4 weeks)
+Iteration 1: (2 weeks)
 
 1. Student can view available courses
 
@@ -83,7 +83,7 @@ Iteration 1: (4 weeks)
 
 6. Registration manager can check time conflict between locations, courses, students and lecturers.
 
-Iteration 2: (5 weeks)
+Iteration 2: (3 weeks)
 
 1. Student: Course plan and how current course plan will affect future course enrollment
 
@@ -103,7 +103,7 @@ Iteration 2: (5 weeks)
 
 ## Calculate Velocity for Milestone 2:
 
-Timeline: 4 weeks to Iteration 1, 5 weeks to Iteration 2
+Timeline: 2 weeks to Iteration 1, 3 weeks to Iteration 2
 
 Iteration 1: 6 user stories x 8 story points = 48
 Iteration 2: 8 user stories x 8 story points = 64
