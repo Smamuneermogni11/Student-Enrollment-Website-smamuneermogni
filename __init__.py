@@ -49,6 +49,9 @@ def create_app():
 
     from student_lists import student_lists as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from student_lists_lec import student_lists_lec as main_blueprint
+    app.register_blueprint(main_blueprint)
     
     
 

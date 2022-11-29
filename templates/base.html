@@ -85,11 +85,13 @@
              
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Admin
+                  Lecturer
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <div class="dropdown-divider"></div>
+                  
                     <a class="dropdown-item" href="{{ url_for('Timetable_lecturer.Timetable_lecturerf', iddc = current_user.id) }}">lecturer TimeTable</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ url_for('student_lists_lec.student_lists_lecf') }}">Student_lists</a>
                 </div>
               </li>
             </form>

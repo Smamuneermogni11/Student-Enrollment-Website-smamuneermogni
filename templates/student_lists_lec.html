@@ -67,12 +67,12 @@
   &nbsp;
   &nbsp;
 
-  <form method="post" action="/download/report/pdfs">
+  <form method="post" action="/download/report/pdfslec">
     <input type="hidden" name="iddc" value="{{idd}}">
   </form>
 
   <h1>Student lists</h1>
-  <form method="post" action="/student_listsf">
+  <form method="post" action="/student_lists_lecf">
     <input type="hidden" name="iddc" value="{{idd}}">
     <table id="table_to_highlight" style="width:100%">
         <thead>
@@ -106,7 +106,7 @@
           </tbody>
       </table>
       <p>
-        <a href="{{ url_for('student_lists.download_report', iddc = current_user.id) }}">Print list</a>
+        <a href="{{ url_for('student_lists_lec.download_report', iddc = current_user.id) }}">Print list</a>
     </p>
 </form>
 
