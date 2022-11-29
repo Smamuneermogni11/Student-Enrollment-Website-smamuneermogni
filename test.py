@@ -41,3 +41,6 @@ def test_invalid_login():
         response = test_client.get('/login')
         assert response.status_code == 200
         
+# cd C:\Users\MuneerMogni\Desktop\PythonByte edit\PythonByte
+# venv\Scripts\activate.bat
+# python -m main
