@@ -3,7 +3,9 @@
 ## **Team members:** 
 KRISTINA, NAIF, MUNEER, DESMEND       
 
-## **Team name: PythonByte**   
+## **Team name: PythonByte**
+
+
 
 ## **Development Environment:**
 **Frontend:** HTML, CSS, Bootstrap , Javascript   
@@ -156,3 +158,5 @@ python -m pytest test.py
 
 ### For MacOS and Linux user: 
 pytest test.py
+
+## ** Three most important things you learned about software development**
