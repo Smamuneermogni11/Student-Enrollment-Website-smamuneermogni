@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+table {
+  border-spacing: 10px;
+}
+
+th {
+  text-align: left;
+}
+th,
+td {
+  padding: 10px;
+  border-bottom: 15px solid transparent;
+  background-clip: padding-box;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 60%;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 16px;
+}
+</style>
+<h1 class="title">
+  {% for row in current_Sem_Dec %}
+          <h1><b> Statistics For {{row[0]}}</b></h1> 
+                    {% endfor %}  
+</h1>
+
+<table class="tg">
+    <tbody>
+      <tr>
+        <td class="tg-0lax"   >
+            <div class="card">
+                <img src="/static/img/all.png" alt="Avatar" style="width:100%">
+                <div class="container">
+                  
+                  {% for row in dataAll %}
+                  <h4><b>{{row[0]}}</b></h4> 
+                    {% endfor %}
+                  <p>Students</p> 
+                </div>
+              </div>
+        </td>
+        <td class="tg-0lax" > 
+            <div class="card">
+            <img src="/static/img/not.png" alt="Avatar" style="width:100%">
+            <div class="container">
+                {% for row in dataNot %}
+              <h4><b>{{row[0]}}</b></h4> 
+                {% endfor %}
+              <p>Unenrolled Students</p> 
+            </div>
+          </div>
+        </td>
+        <td class="tg-0lax" >
+            <div class="card">
+                <img src="/static/img/enroled.png" alt="Avatar" style="width:100%">
+                <div class="container">
+                {% for row in dataEnr %}
+                  <h4><b>{{row[0]}}</b></h4> 
+                {% endfor %} 
+                  <p>Enrolled Students</p> 
+                </div>
+              </div>
+        </td>
+      </tr>
+      
+      <tr>
+ 
+        <td class="tg-0lax" >
+            <div class="card">
+                <img src="/static/img/lec.png" alt="Avatar" style="width:100%">
+                <div class="container">
+                {% for row in lecalls %}
+                  <h4><b>{{row[0]}}</b></h4> 
+                {% endfor %} 
+                  <p>Lecturer</p> 
+                </div>
+              </div>
+        </td>
+        <td class="tg-0lax" ></td>
+        <td class="tg-0lax" ></td>
+      </tr>
+      <tr>
+        <td class="tg-0lax" ></td>
+        <td class="tg-0lax" ></td>
+        <td class="tg-0lax" ></td>
+      </tr>
+    </tbody>
+    </table>
+
+{% endblock %}

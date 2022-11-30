@@ -66,12 +66,10 @@
   &nbsp;
   &nbsp;
 
-  <form method="post" action="/download/report/pdfslecl">
-    <input type="hidden" name="iddc" value="{{idd}}">
-  </form>
+
 
   <h1>Student lists</h1>
-  <form method="post" action="/student_listsf">
+  <form method="post" action="/complete">
     <input type="hidden" name="iddc" value="{{idd}}">
     <table id="table_to_highlight" style="width:100%">
         <thead>
@@ -81,10 +79,8 @@
             <th>Department</th>
             <th>Course Code</th>
             <th>Course Name</th>
-            <th>Day</th>
-            <th>From</th>      
-            <th>To</th>
             <th>Semester</th>
+            <th>Complete</th>
           </tr>
           </thead>    
           <tbody>
@@ -95,18 +91,24 @@
                       <td>{{row[2]}}</td>
                       <td>{{row[3]}}</td>
                       <td>{{row[4]}}</td>
-                      <td>{{row[5]}}</td>
-                      <td>{{row[6]}}</td>
-                      <td>{{row[7]}}</td>
                       <td>{{row[8]}}</td>
-                      
+                      {% if row[13] == 0 %}
+                      <td>Fail</td>
+                      {% elif row[13] == 1 %}
+                      <td>PASS</td>
+                      {% else %}
+                      <td>No Grade</td>
+                      {% endif %}
+                      <td><button class="bi bi-plus" type="submit" value="{{ row[12] }}" name="Pass">Pass</button></td>
+                      <td><button class="bi bi-plus" type="submit" value="{{ row[12] }}" name="Fail">Fail</button></td>
+                      <td><button class="bi bi-plus" type="submit" value="{{ row[12] }}" name="nograde">No Grade</button></td>
                   </tr>
+                  {% if value %}
+                    {{value}}
+                    {% endif %}
               {% endfor %}
           </tbody>
       </table>
-      <p>
-        <a href="{{ url_for('student_lists.download_report', iddc = current_user.id) }}">Print list</a>
-    </p>
 </form>
 
 {% endblock %}

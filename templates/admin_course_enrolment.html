@@ -90,7 +90,9 @@
 &nbsp;
 
 
-
+{% if not dbstdi %}
+<h1 style="color:red;">Not Found</h1>
+{% else %}
 {% if not data2 %}
 <h1 style="color:red;">Not enrolled in any Courses</h1>
 {% else %}
@@ -141,6 +143,7 @@
           </tfoot>
       </table>
 </form>
+{% endif %}
 {% endif %}
 &nbsp;
 &nbsp;

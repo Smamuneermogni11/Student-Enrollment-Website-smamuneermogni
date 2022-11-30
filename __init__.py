@@ -55,9 +55,17 @@ def create_app():
 
     from student_lists_lec import student_lists_lec as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from lec_lists import lec_lists as main_blueprint
+    app.register_blueprint(main_blueprint)
     
+    from Stats import Stats as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from complete import complete as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from semester import semester as main_blueprint
+    app.register_blueprint(main_blueprint)        
     
-
-
-
     return app

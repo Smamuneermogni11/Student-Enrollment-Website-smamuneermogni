@@ -23,12 +23,15 @@ app = Flask(__name__)
 def student_course_enrolment():
     with app.app_context():
         user_id =  request.args.get('iddc')
-        SEM = 223    
+          
         con = sqlite3.connect("instance/db.sqlite")
-        cur = con.cursor()      
-        cur.execute("SELECT course_id, course_code, course_name, level_id, credit,  Day.Day_Decs , FromT, Tot FROM course p join Day on Day.Day_id = p.Day_id WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s' and od.SEM = '%s') AND dep_id = (select dep_id from user where id  = '%s' )" % (user_id,SEM,user_id))
+        cur = con.cursor()
+        cur.execute("SELECT default_sem FROM default_sem")
+        SEM = cur.fetchone()[0]
+        con.commit()      
+        cur.execute("SELECT course_id, course_code, course_name, level_id, credit,  Day.Day_Decs , FromT, Tot FROM course p join Day on Day.Day_id = p.Day_id WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s' and od.SEM = '%s') AND dep_id = (select dep_id from user where id  = '%s' ) AND p.SEM = '%s'" % (user_id,SEM,user_id,SEM))
         data = cur.fetchall()
-        cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit,Day.Day_Decs ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id join Day on Day.Day_id = course.Day_id where Time_table.user_id = '%s' and Time_table.SEM = '%s'" % (user_id,SEM))
+        cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit,Day.Day_Decs ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id join Day on Day.Day_id = course.Day_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' and course.SEM = '%s'" % (user_id,SEM,SEM))
         data2 = cur.fetchall()
         cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' " % (user_id,SEM))
         dataC = cur.fetchall()

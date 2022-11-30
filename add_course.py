@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask import Flask
 import sqlite3
+import semester
 add_course = Blueprint('add_course', __name__) 
 app = Flask(__name__)
 

@@ -15,26 +15,35 @@ from __init__ import create_app, db
 import sqlite3
 from flask import Flask
 from fpdf import FPDF
+
 allocate_lecturer = Blueprint('allocate_lecturer', __name__)
 app = Flask(__name__)
 @allocate_lecturer.route('/allocate_lecturerf', methods=['GET', 'POST']) 
 def allocate_lecturerf():
     with app.app_context():
-        SEM = 223
+       
         con = sqlite3.connect("instance/db.sqlite")
         cur = con.cursor()
         cur.execute("SELECT * FROM user where rol_id = 2")
        
         lec_dd = cur.fetchall()
         con.commit()
-        cur.execute("SELECT * FROM lecturer_view")
+        cur.execute("SELECT default_sem FROM default_sem")
+        SEM = cur.fetchone()[0]
+        con.commit()
+        lec_id = request.form.get('lec_id')
+      
+        con.commit()
+    
+        cur.execute("SELECT * FROM lecturer_view where SEM = '%s'"  % (SEM))
         lecturer = cur.fetchall()
         course_id = request.form.get('course_id')
+        nolec = request.form.get('nolec', None)
         con.commit()
         
-        lec_id = request.form.get('lec_id')
-        print("lec_idss")
-        print(lec_id)
+        
+        
+      
         cur.execute(""" SELECT distinct
 
     cp1.Day_id AS CP1_Day_id,
@@ -59,20 +68,27 @@ JOIN
      
       where cp2.lec_id = ? AND cp1.SEM = ? and  cp1.course_id = ?  """, (lec_id,SEM,course_id))
         entry = cur.fetchone()
-
-        if entry is None:
-            cur.execute("UPDATE  course set lec_id = ? where course_id = ? " , (lec_id, course_id))
-            con.commit()
-            error = "The lecturer has been added successfully. "
+        error=''
+        if request.method == 'POST':
+            if entry is None:
+                if course_id:
+                    cur.execute("UPDATE  course set lec_id = ? where course_id = ? and sem = ? " , (lec_id, course_id,SEM))
+                    con.commit()
+                    error = "The lecturer has been added successfully. "
+                if nolec:
+                    course_idF = request.form.get('nolec')
+                    cur.execute("UPDATE  course set lec_id = ? where course_id = ? and sem = ? " , (None, course_idF,SEM))
+                    con.commit()
+                    error = "The lecturer has been deleted successfully. "
                      
-        else:
-            error = "There is a time conflict. Choose another lecturer."
+            else:
+                error = "There is a time conflict. Choose another lecturer."
 
 
 
         #cur.execute("UPDATE  course set loc_id = ? where course_id = ? " , (loc_id, course_id))
         #con.commit()
-        cur.execute("SELECT * FROM lecturer_view")
+        cur.execute("SELECT * FROM lecturer_view where SEM = '%s'"  % (SEM))
         lecturer = cur.fetchall()
         con.commit()
         con.close()

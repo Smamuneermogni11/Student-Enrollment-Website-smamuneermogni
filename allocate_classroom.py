@@ -23,9 +23,12 @@ app = Flask(__name__)
 @allocate_classroom.route('/allocate_classroomf', methods=['GET', 'POST']) 
 def allocate_classroomf():
     with app.app_context():
-        SEM = 223
+        
         con = sqlite3.connect("instance/db.sqlite")
         cur = con.cursor()
+        cur.execute("SELECT default_sem FROM default_sem")
+        SEM = cur.fetchone()[0]
+        con.commit()
         cur.execute("SELECT * FROM loc")
        
         classroom = cur.fetchall()
@@ -34,7 +37,7 @@ def allocate_classroomf():
         courses = cur.fetchall()
         course_id = request.form.get('course_id')
         con.commit()
-        
+        nolec = request.form.get('nolec', None)
         loc_id = request.form.get('classroom')
         print("loc_idss")
         print(loc_id)
@@ -62,14 +65,21 @@ JOIN
      
       where cp2.loc_id = ? AND cp1.SEM = ? and  cp1.course_id = ?  """, (loc_id,SEM,course_id))
         entry = cur.fetchone()
-
-        if entry is None:
-            cur.execute("UPDATE  course set loc_id = ? where course_id = ? " , (loc_id, course_id))
-            con.commit()
-            error = "The Classroom has been added successfully. "
+        error=''
+        if request.method == 'POST':
+            if entry is None:
+                if course_id:
+                    cur.execute("UPDATE  course set loc_id = ? where course_id = ? " , (loc_id, course_id))
+                    con.commit()
+                    error = "The Classroom has been added successfully. "
+                if nolec:
+                    course_idF = request.form.get('nolec')
+                    cur.execute("UPDATE  course set loc_id = ? where course_id = ? " , (None, course_idF))
+                    con.commit()
+                    error = "The Classroom has been deleted successfully. "
                      
-        else:
-            error = "There is a time conflict. Choose another Classroom."
+            else:
+                error = "There is a time conflict. Choose another Classroom."
 
 
 

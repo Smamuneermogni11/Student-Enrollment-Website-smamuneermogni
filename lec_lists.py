@@ -16,27 +16,25 @@ import sqlite3
 from flask import Flask
 from fpdf import FPDF
 
-student_lists = Blueprint('student_lists', __name__)
+lec_lists = Blueprint('lec_lists', __name__)
 app = Flask(__name__)
 
-@student_lists.route('/student_lists', methods=['GET', 'POST']) 
-def student_listsf():
+@lec_lists.route('/lec_lists', methods=['GET', 'POST']) 
+def lec_listsf():
                 
                 user_id = current_user.id
                 print(user_id)
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()
-              
-                con.commit()
                 
-                cur.execute("SELECT * from student_list" )
+                cur.execute("SELECT * from lec_lists ")
                 data2 = cur.fetchall()
 
                 con.commit()
                 con.close()
-                return render_template('student_lists.html',data2=data2, idd = current_user.id,name= current_user.name)
+                return render_template('lec_lists.html',data2=data2, idd = current_user.id,name= current_user.name)
 
-@student_lists.route('/download/report/pdfsl', methods=['GET', 'POST'])
+@lec_lists.route('/download/report/pdfslecl', methods=['GET', 'POST'])
 def download_report():
     
     
@@ -44,11 +42,11 @@ def download_report():
 
         con = sqlite3.connect("instance/db.sqlite")
         cur = con.cursor()
-       
+        
         user_id = current_user.id
         print(user_id)
 
-        cur.execute("SELECT * from student_list")
+        cur.execute("SELECT * from lec_lists")
         
         
         con.commit()
@@ -68,7 +66,7 @@ def download_report():
         page_width = pdf.w - 2 * pdf.l_margin
          
         pdf.set_font('Times','B',14.0) 
-        pdf.cell(page_width, 0.0, 'Student List', align='C')
+        pdf.cell(page_width, 0.0, 'Lecturer List', align='C')
         pdf.ln(10)
         th = pdf.font_size
 
@@ -83,13 +81,8 @@ def download_report():
         
         pdf.cell(8, th, 'ID', border=1, align='C')
         pdf.cell(25, th, 'Name', border=1, align='C')
-        pdf.cell(15, th, 'Dep', border=1, align='C')
-        pdf.cell(22, th, 'Code', border=1, align='C')
-        pdf.cell(65, th, 'Course Name', border=1, align='C')
-        pdf.cell(22, th, 'Day', border=1, align='C')
-        pdf.cell(11, th, 'From', border=1, align='C')
-        pdf.cell(11, th, 'To', border=1, align='C')
-        pdf.cell(25, th, 'Semester', border=1, align='C')
+        pdf.cell(25, th, 'Dep', border=1, align='C')
+       
         pdf.ln(th)
         pdf.set_font('Times', '', 12)
         th = pdf.font_size
@@ -97,13 +90,7 @@ def download_report():
             #pdf.cell(col_width, th, str(row[0]), border=1)
             pdf.cell(8, th, str(row[0]), border=1, align='C')
             pdf.cell(25, th, row[1], border=1, align='C')
-            pdf.cell(15, th, row[2], border=1, align='C')
-            pdf.cell(22, th, row[3], border=1, align='C')
-            pdf.cell(65, th, row[4], border=1, align='C')
-            pdf.cell(22, th, row[5], border=1, align='C')
-            pdf.cell(11, th, str(row[6]), border=1, align='C')
-            pdf.cell(11, th, str(row[7]), border=1, align='C')
-            pdf.cell(25, th, row[8], border=1, align='C')
+            pdf.cell(25, th, row[2], border=1, align='C')
             pdf.ln(th)
          
         pdf.ln(10)
@@ -113,7 +100,7 @@ def download_report():
         pdf.set_font('Times','',10.0) 
         pdf.cell(page_width, 0.0, '- end of report -', align='C')
         
-        return Response(pdf.output(dest='S').encode('latin-1'), mimetype='application/pdf', headers={'Content-Disposition':'attachment;filename=Student_List_report.pdf'})
+        return Response(pdf.output(dest='S').encode('latin-1'), mimetype='application/pdf', headers={'Content-Disposition':'attachment;filename=lec_List_report.pdf'})
     except Exception as e:
         print(e)
     finally:

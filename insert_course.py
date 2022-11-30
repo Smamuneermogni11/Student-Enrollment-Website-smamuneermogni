@@ -15,6 +15,7 @@ from __init__ import create_app, db
 import sqlite3
 from flask import Flask
 from fpdf import FPDF
+
 insert_course = Blueprint('student_course_enrolment', __name__)
 app = Flask(__name__)
 
@@ -23,13 +24,16 @@ def incourse():
         #with app.app_context():
                 print('ins1')
             #if request.method == 'POST':
-                SEM = 223
+                
                 course_id = request.form.get('course_id')
                 #eee = request.form.get('idd')
                 user_id = request.form.get('iddv',type=int)
                 #request.form['submit_button'] == 'Do Something':
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()
+                cur.execute("SELECT default_sem FROM default_sem")
+                SEM = cur.fetchone()[0]
+                con.commit()
                 #cur.execute("SELECT A.Day_id, A.FromT, A.ToT, A.user_id, A.course_id FROM Time_table AS A, Time_table AS B WHERE b.user_id = a.user_id AND b.Day_id = a.Day_id AND b.FromT>=a.FromT AND b.ToT<=a.ToT AND b.FromT<=a.FromT AND b.ToT>=a.ToT")
                 cur.execute(""" SELECT distinct
 
@@ -73,11 +77,11 @@ JOIN
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()      
 
-                cur.execute("SELECT course_id, course_code, course_name, level_id, credit,  Day.Day_Decs , FromT, Tot FROM course p join Day on Day.Day_id = p.Day_id WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s' and od.SEM = '%s') AND dep_id = (select dep_id from user where id  = '%s' )" % (user_id,SEM,user_id))
+                cur.execute("SELECT course_id, course_code, course_name, level_id, credit,  Day.Day_Decs , FromT, Tot FROM course p join Day on Day.Day_id = p.Day_id WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s' and od.SEM = '%s') AND dep_id = (select dep_id from user where id  = '%s' ) AND p.SEM = '%s'" % (user_id,SEM,user_id,SEM))
                 
                 data = cur.fetchall()
                 
-                cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit,Day.Day_Decs ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id join Day on Day.Day_id = course.Day_id where Time_table.user_id = '%s' and Time_table.SEM = '%s'" % (user_id,SEM))
+                cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit,Day.Day_Decs ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id join Day on Day.Day_id = course.Day_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' and course.SEM = '%s'" % (user_id,SEM,SEM))
                 data2 = cur.fetchall()
                 cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' " % (user_id, SEM))
                 dataC = cur.fetchall()
@@ -96,7 +100,7 @@ JOIN
 @insert_course.route('/delcourse', methods=['GET', 'POST']) 
 def delcourse():
         #with app.app_context():
-                SEM = 223
+                
             #if request.method == 'POST':
                 course_id = request.form.get('course_id_del')
                 #eee = request.form.get('iddc')
@@ -106,16 +110,19 @@ def delcourse():
                 #request.form['submit_button'] == 'Do Something':
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()
+                cur.execute("SELECT default_sem FROM default_sem")
+                SEM = cur.fetchone()[0]
+                con.commit()
                 query = "DELETE FROM Time_table WHERE user_id = ? and course_id = ? and SEM = ?"
                 cur.execute(query,(user_id, course_id, SEM))
                 con.commit()
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()      
-                cur.execute("SELECT course_id, course_code, course_name, level_id, credit,  Day.Day_Decs , FromT, Tot FROM course p join Day on Day.Day_id = p.Day_id WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s' and od.SEM = '%s') AND dep_id = (select dep_id from user where id  = '%s' )" % (user_id,SEM,user_id))
+                cur.execute("SELECT course_id, course_code, course_name, level_id, credit,  Day.Day_Decs , FromT, Tot FROM course p join Day on Day.Day_id = p.Day_id WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s' and od.SEM = '%s') AND dep_id = (select dep_id from user where id  = '%s' ) AND p.SEM = '%s'" % (user_id,SEM,user_id,SEM))
                 
                 data = cur.fetchall()
                 
-                cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit,Day.Day_Decs ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id join Day on Day.Day_id = course.Day_id where Time_table.user_id = '%s' and Time_table.SEM = '%s'" % (user_id,SEM))
+                cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit,Day.Day_Decs ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id join Day on Day.Day_id = course.Day_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' and course.SEM = '%s'" % (user_id,SEM,SEM))
                 data2 = cur.fetchall()
                 cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s'" % (user_id, SEM))
                 dataC = cur.fetchall()
@@ -126,7 +133,9 @@ def delcourse():
 def download_report():
     con = sqlite3.connect("instance/db.sqlite")
     cur = con.cursor()
-    SEM = 223
+    cur.execute("SELECT default_sem FROM default_sem")
+    SEM = cur.fetchone()[0]
+    con.commit()
     
     try:
 
@@ -154,7 +163,8 @@ def download_report():
         page_width = pdf.w - 2 * pdf.l_margin
          
         pdf.set_font('Times','B',14.0) 
-        pdf.cell(page_width, 0.0, 'Time Table', align='C')
+        for row in result:
+            pdf.cell(page_width, 0.0, 'Time Table ' + row[9] , align='C')
         pdf.ln(10)
         th = pdf.font_size
 
@@ -172,23 +182,28 @@ def download_report():
         pdf.ln(1)
          
         
-        pdf.cell(25, th, 'Code', border=1)
-        pdf.cell(95, th, 'Name', border=1)
-        pdf.cell(17, th, 'Credit', border=1)
+        pdf.cell(22, th, 'Code', border=1)
+        pdf.cell(90, th, 'Name', border=1)
+        pdf.cell(15, th, 'Credit', border=1)
         pdf.cell(22, th, 'Day', border=1)
-        pdf.cell(15, th, 'From', border=1)
-        pdf.cell(15, th, 'To', border=1)
+        pdf.cell(14, th, 'From', border=1)
+        pdf.cell(14, th, 'To', border=1)
+        pdf.cell(17, th, 'Location', border=1)
         pdf.ln(th)
         pdf.set_font('Times', '', 12)
         th = pdf.font_size
         for row in result:
             #pdf.cell(col_width, th, str(row[0]), border=1)
-            pdf.cell(25, th, row[1], border=1)
-            pdf.cell(95, th, row[2], border=1)
-            pdf.cell(17, th, str(row[3]), border=1)
+            pdf.cell(22, th, row[1], border=1)
+            pdf.cell(90, th, row[2], border=1)
+            pdf.cell(15, th, str(row[3]), border=1)
             pdf.cell(22, th, row[4], border=1)
-            pdf.cell(15, th, str(row[5]), border=1)
-            pdf.cell(15, th, str(row[6]), border=1)
+            pdf.cell(14, th, str(row[5]), border=1)
+            pdf.cell(14, th, str(row[6]), border=1)
+            if row[8] is None:
+                 pdf.cell(17, th, '', border=1)
+            else:
+                pdf.cell(17, th, row[8], border=1)
             pdf.ln(th)
          
         pdf.ln(10)

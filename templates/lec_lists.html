@@ -63,28 +63,23 @@
   &nbsp;
   &nbsp;
   &nbsp;
+  <h1>{{name}}</h1>
   &nbsp;
   &nbsp;
 
-  <form method="post" action="/download/report/pdfslecl">
+  <form method="post" action="/download/report/pdfs">
     <input type="hidden" name="iddc" value="{{idd}}">
   </form>
 
-  <h1>Student lists</h1>
-  <form method="post" action="/student_listsf">
+  <h1>Lecturer lists</h1>
+  <form method="post" action="/lec_listsf">
     <input type="hidden" name="iddc" value="{{idd}}">
     <table id="table_to_highlight" style="width:100%">
         <thead>
           <tr>     
-            <th>Student ID</th>
-            <th>Student Name</th>
+            <th>lecturer ID</th>
+            <th>lecturer Name</th>
             <th>Department</th>
-            <th>Course Code</th>
-            <th>Course Name</th>
-            <th>Day</th>
-            <th>From</th>      
-            <th>To</th>
-            <th>Semester</th>
           </tr>
           </thead>    
           <tbody>
@@ -93,19 +88,14 @@
                       <td>{{row[0]}}</td>                  
                       <td>{{row[1]}}</td>
                       <td>{{row[2]}}</td>
-                      <td>{{row[3]}}</td>
-                      <td>{{row[4]}}</td>
-                      <td>{{row[5]}}</td>
-                      <td>{{row[6]}}</td>
-                      <td>{{row[7]}}</td>
-                      <td>{{row[8]}}</td>
+
                       
                   </tr>
               {% endfor %}
           </tbody>
       </table>
       <p>
-        <a href="{{ url_for('student_lists.download_report', iddc = current_user.id) }}">Print list</a>
+        <a href="{{ url_for('lec_lists.download_report', iddc = current_user.id) }}">Print list</a>
     </p>
 </form>
 

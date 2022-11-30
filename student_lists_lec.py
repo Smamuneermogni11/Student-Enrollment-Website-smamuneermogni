@@ -15,17 +15,20 @@ from __init__ import create_app, db
 import sqlite3
 from flask import Flask
 from fpdf import FPDF
+
 student_lists_lec = Blueprint('student_lists_lec', __name__)
 app = Flask(__name__)
 
 @student_lists_lec.route('/student_lists_lec', methods=['GET', 'POST']) 
 def student_lists_lecf():
-                SEM = 223
+                
                 user_id = current_user.id
                 print(user_id)
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()
-                
+                cur.execute("SELECT default_sem FROM default_sem")
+                SEM = cur.fetchone()[0]
+                con.commit()
                 cur.execute("SELECT * from student_list where lec_id = '%s' and sem_id = '%s'" % (user_id,SEM))
                 data2 = cur.fetchall()
 
@@ -41,7 +44,9 @@ def download_report():
 
         con = sqlite3.connect("instance/db.sqlite")
         cur = con.cursor()
-        SEM = 223
+        cur.execute("SELECT default_sem FROM default_sem")
+        SEM = cur.fetchone()[0]
+        con.commit()
         user_id = current_user.id
         print(user_id)
 

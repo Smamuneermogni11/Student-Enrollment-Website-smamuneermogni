@@ -15,17 +15,20 @@ from __init__ import create_app, db
 import sqlite3
 from flask import Flask
 from fpdf import FPDF
+
 Timetable_lecturer = Blueprint('Timetable_lecturer', __name__)
 app = Flask(__name__)
 
 @Timetable_lecturer.route('/Timetable_lecturerf', methods=['GET', 'POST']) 
 def Timetable_lecturerf():
-                SEM = 223
+                
                 user_id = current_user.id
                 print(user_id)
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()
-                
+                cur.execute("SELECT default_sem FROM default_sem")
+                SEM = cur.fetchone()[0]
+                con.commit()
                 cur.execute("SELECT * from lecturer_TimeTable where lec_id = '%s' and SEM = '%s'" % (user_id,SEM))
                 data2 = cur.fetchall()
                 cur.execute("SELECT sum(credit) FROM lecturer_TimeTable where lec_id = '%s' and SEM = '%s'" % (user_id, SEM))
@@ -34,7 +37,7 @@ def Timetable_lecturerf():
                 con.close()
                 return render_template('Timetable_lecturer.html',data2=data2, idd = current_user.id,name= current_user.name,dataC=dataC)
 
-@Timetable_lecturer.route('/download/report/pdfs', methods=['GET', 'POST'])
+@Timetable_lecturer.route('/download/report/pdfsl', methods=['GET', 'POST'])
 def download_report():
     
     
@@ -42,8 +45,11 @@ def download_report():
 
         con = sqlite3.connect("instance/db.sqlite")
         cur = con.cursor()
-        SEM = 223
+        cur.execute("SELECT default_sem FROM default_sem")
+        SEM = cur.fetchone()[0]
+        con.commit()
         user_id = current_user.id
+        print('pdf')
         print(user_id)
 
         cur.execute("SELECT * from lecturer_TimeTable where lec_id = '%s' and SEM = '%s'" % (user_id,SEM))
@@ -66,7 +72,8 @@ def download_report():
         page_width = pdf.w - 2 * pdf.l_margin
          
         pdf.set_font('Times','B',14.0) 
-        pdf.cell(page_width, 0.0, 'Time Table', align='C')
+        for row in result:
+            pdf.cell(page_width, 0.0, 'Time Table ' + row[8], align='C')
         pdf.ln(10)
         th = pdf.font_size
 
@@ -102,7 +109,10 @@ def download_report():
             pdf.cell(22, th, row[3], border=1)
             pdf.cell(13, th, str(row[4]), border=1)
             pdf.cell(13, th, str(row[5]), border=1)
-            pdf.cell(17, th, row[6], border=1)
+            if row[6] is None:
+                 pdf.cell(17, th, '', border=1)
+            else:
+                pdf.cell(17, th, row[6], border=1)
             pdf.ln(th)
          
         pdf.ln(10)
@@ -117,7 +127,7 @@ def download_report():
         pdf.set_font('Times','',10.0) 
         pdf.cell(page_width, 0.0, '- end of report -', align='C')
         
-        return Response(pdf.output(dest='S').encode('latin-1'), mimetype='application/pdf', headers={'Content-Disposition':'attachment;filename=lecturer_TimeTable_report.pdf'})
+        return Response(pdf.output(dest='S').encode('latin-1'), mimetype='application/pdf', headers={'Content-Disposition':'attachment;filename=lecturer5_TimeTable_report.pdf'})
     except Exception as e:
         print(e)
     finally:

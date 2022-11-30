@@ -3,13 +3,15 @@ from flask import Blueprint, render_template, flash
 from flask_login import login_required, current_user
 from __init__ import create_app, db
 from flask import Flask
+import sqlite3
 
 
 
 main = Blueprint('main', __name__)
-
+app = Flask(__name__)
 @main.route('/') 
 def index():
+   
     return render_template('index.html')
 
 @main.route('/About') 
