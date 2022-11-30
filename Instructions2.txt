@@ -1,0 +1,7 @@
+1. python3 -m venv venv # create the venv
+2. venv\scripts\activate.bat # activate venv
+3. pip install -r requirements.txt  # install the requirements
+4. python.exe -m pip install --upgrade pip # upgrade if needed
+5. python main.py # run the website
+6. From the Browser go to  http://127.0.0.1:5000  # Browser the website
+from fpdf import FPDF - allocateclassroom
