@@ -4,4 +4,3 @@
 4. python.exe -m pip install --upgrade pip # upgrade if needed FirstTime
 5. python main.py # run the website
 6. From the Browser go to  http://127.0.0.1:5000  # Browser the website
-from fpdf import FPDF - allocateclassroom
