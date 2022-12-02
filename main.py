@@ -6,7 +6,6 @@ from flask import Flask
 import sqlite3
 
 
-
 main = Blueprint('main', __name__)
 app = Flask(__name__)
 @main.route('/') 

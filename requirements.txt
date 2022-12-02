@@ -6,3 +6,4 @@ pandas
 pytest
 fpdf
 plotly
+flask-mysqldb

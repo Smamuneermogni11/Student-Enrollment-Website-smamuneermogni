@@ -17,8 +17,8 @@ from flask import Flask
 from fpdf import FPDF
 import pandas as pd
 import json
-import plotly
-import plotly.express as px
+#import plotly
+#import plotly.express as px
 
 Stats = Blueprint('Stats', __name__)
 app = Flask(__name__)
