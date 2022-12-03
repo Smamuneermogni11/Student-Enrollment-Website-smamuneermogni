@@ -21,20 +21,16 @@ app = Flask(__name__)
 
 @insert_course.route('/incourse', methods=['GET', 'POST']) 
 def incourse():
-        #with app.app_context():
-                print('ins1')
-            #if request.method == 'POST':
-                
+                   
                 course_id = request.form.get('course_id')
-                #eee = request.form.get('idd')
+                
                 user_id = request.form.get('iddv',type=int)
-                #request.form['submit_button'] == 'Do Something':
+               
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()
                 cur.execute("SELECT default_sem FROM default_sem")
                 SEM = cur.fetchone()[0]
                 con.commit()
-                #cur.execute("SELECT A.Day_id, A.FromT, A.ToT, A.user_id, A.course_id FROM Time_table AS A, Time_table AS B WHERE b.user_id = a.user_id AND b.Day_id = a.Day_id AND b.FromT>=a.FromT AND b.ToT<=a.ToT AND b.FromT<=a.FromT AND b.ToT>=a.ToT")
                 cur.execute(""" SELECT distinct
 
     cp1.Day_id AS CP1_Day_id,
@@ -53,9 +49,10 @@ JOIN
     course AS cp2 
     ON cp2.course_id = cp1.course_id AND cp2.SEM = cp1.SEM 
     
-      And (cp2.fromT >= cp1.fromT and cp2.fromT < cp1.toT AND  cp1.fromT <= cp2.fromT and cp2.day_id = cp1.day_id)
-      OR (cp2.toT > cp1.fromT and cp2.toT <= cp1.toT AND cp1.fromT <= cp2.fromT and cp2.day_id = cp1.day_id )
-      OR (cp2.fromT <= cp1.fromT and cp2.toT >= cp1.toT AND cp1.fromT <= cp2.fromT and cp2.day_id = cp1.day_id)
+      And(cp2.fromT >= cp1.fromT  and cp2.fromT < cp1.toT  AND cp1.fromT <= cp2.fromT  and cp2.day_id = cp1.day_id)
+      OR (cp2.toT > cp1.fromT     and cp2.toT <= cp1.toT   AND cp1.fromT <= cp2.fromT  and cp2.day_id = cp1.day_id )
+      OR (cp2.fromT <= cp1.fromT  and cp2.toT >= cp1.toT   AND cp1.fromT <= cp2.fromT  and cp2.day_id = cp1.day_id)
+      OR (cp2.fromT <= cp1.toT    and cp2.toT >= cp1.fromT  and cp2.day_id = cp1.day_id)
      
       where cp2.course_id = ? AND  cp1.user_id = ? AND cp1.SEM = ?   """, (course_id,user_id,SEM))
                 entry = cur.fetchone()
@@ -63,14 +60,10 @@ JOIN
                 if entry is None:
                      cur.execute("insert into Time_table (user_id,course_id, Day_id, fromT, toT,SEM) values (?,?,(SELECT Day_id FROM course where course_id  = ?),(SELECT fromT FROM course where course_id  = ?),(SELECT toT FROM course where course_id  = ?),?)", (user_id, course_id,course_id,course_id,course_id,SEM) )
                      error = "The course has been added successfully."
-                     #cour2 = ""
+                    
                 else:
                     error = "There is a time conflict. Choose another course."
-                    #id_tuple = tuple(entry[1])
-                    #cur.execute("SELECT course_id, course_code, course_name FROM course WHERE course_id in {};".format(id_tuple))
-                    #cour2 = cur.fetchall()
-            
-                #cur.execute("insert into Time_table (user_id,course_id, Day_id, fromT, toT) values (?,?,(SELECT Day_id FROM course where course_id  = ?),(SELECT fromT FROM course where course_id  = ?),(SELECT toT FROM course where course_id  = ?))", (user_id, course_id,course_id,course_id,course_id) )
+                    
                 cur.close()
                 con.commit()
                 
@@ -85,7 +78,8 @@ JOIN
                 data2 = cur.fetchall()
                 cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' " % (user_id, SEM))
                 dataC = cur.fetchall()
-                
+                cur.execute("SELECT * FROM semester_view")
+                current_Sem_Dec = cur.fetchall()[0][0]
                 con.commit()
                 con.close()
               
@@ -94,20 +88,16 @@ JOIN
 
 
                 
-                return render_template('student_course_enrolment.html',data=data,data2=data2, idd = current_user.id,name= current_user.name,dataC=dataC,error=error)
+                return render_template('student_course_enrolment.html',data=data,data2=data2, idd = current_user.id,name= current_user.name,dataC=dataC,error=error,current_Sem_Dec=current_Sem_Dec)
 
 
 @insert_course.route('/delcourse', methods=['GET', 'POST']) 
 def delcourse():
-        #with app.app_context():
-                
-            #if request.method == 'POST':
+        
                 course_id = request.form.get('course_id_del')
-                #eee = request.form.get('iddc')
-                #user_id = request.form.get('iddc')
+           
                 user_id = request.form.get('iddc',type=int)
-                #user_id = 1
-                #request.form['submit_button'] == 'Do Something':
+               
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()
                 cur.execute("SELECT default_sem FROM default_sem")
@@ -126,9 +116,13 @@ def delcourse():
                 data2 = cur.fetchall()
                 cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s'" % (user_id, SEM))
                 dataC = cur.fetchall()
+                cur.execute("SELECT * FROM semester_view")
+                current_Sem_Dec = cur.fetchall()[0][0]
                 con.commit()
                 con.close()
-                return render_template('student_course_enrolment.html',data=data,data2=data2, idd = current_user.id,name= current_user.name,dataC=dataC)
+                return render_template('student_course_enrolment.html',data=data,data2=data2, idd = current_user.id,name= current_user.name,dataC=dataC,current_Sem_Dec=current_Sem_Dec)
+
+
 @insert_course.route('/download/report/pdf', methods=['GET', 'POST'])
 def download_report():
     con = sqlite3.connect("instance/db.sqlite")

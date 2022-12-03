@@ -23,21 +23,22 @@ app = Flask(__name__)
 @semester.route('/semester', methods=['GET', 'POST']) 
 def semesterf():
     with app.app_context():
-        
+       
         con = sqlite3.connect("instance/db.sqlite")
         cur = con.cursor()
         cur.execute("SELECT * FROM semester")
-       
+        
         lec_dd = cur.fetchall()
+        cur.execute("SELECT * FROM semester_view")
+        current_Sem_Dec = cur.fetchall()[0][0]
         con.commit()
       
-       
-        SEMp = request.form.get('lec_id')
-        cur.execute("UPDATE  default_sem set default_sem = ? where default_id = ? " , (SEMp, 1))
-        con.commit()
-        cur.execute("SELECT * FROM semester_view")
-       
-        current_Sem_Dec = cur.fetchone()
+        if request.method=='POST':
+            SEMp = request.form.get('lec_id')
+            cur.execute("UPDATE  default_sem set default_sem = ? where default_id = ? " , (SEMp, 1))
+            con.commit()
+            cur.execute("SELECT * FROM semester_view")
+            current_Sem_Dec = cur.fetchall()[0][0]
 
         
     

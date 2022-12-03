@@ -35,8 +35,10 @@ def student_course_enrolment():
         data2 = cur.fetchall()
         cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' " % (user_id,SEM))
         dataC = cur.fetchall()
+        cur.execute("SELECT * FROM semester_view")
+        current_Sem_Dec = cur.fetchall()[0][0]
         con.commit()
         con.close()
-    return render_template('student_course_enrolment.html', data=data,data2=data2, idd = current_user.id,name= current_user.name,dataC=dataC)
+    return render_template('student_course_enrolment.html', data=data,data2=data2, idd = current_user.id,name= current_user.name,dataC=dataC,current_Sem_Dec=current_Sem_Dec)
 
   

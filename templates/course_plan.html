@@ -62,26 +62,52 @@
   </style>
   &nbsp;
   &nbsp;
-  &nbsp;
-  &nbsp;
-  &nbsp;
+  
 
-  <form method="post" action="/download/report/pdfslecl">
-    <input type="hidden" name="iddc" value="{{idd}}">
-  </form>
+  <h1>Course Plan</h1>
+  <form method="post" action="/course_plan">
+    <input type="hidden" name="iddcv" value="{{idd}}">
+    <h2>Enrolled & Completed Courses </h2>
+    <table id="table_to_highlight" style="width:100%">
+      <thead>
+        <tr>     
+          <th>Course ID</th>
+          <th>Course Code</th>
+          <th>Course Name</th>
+          <th>Course Status</th>
+          <th>Level</th>
+          <th>Semester</th>
+      
+        </tr>
+        </thead>    
+        <tbody>
+         {% for row in Completed %}    
+                <tr> 
+                    <td>{{row[0]}}</td>                  
+                    <td>{{row[1]}}</td>
+                    <td>{{row[2]}}</td>
+                    <td>{{row[3]}}</td>
+                    <td>{{row[4]}}</td>
+                    <td>{{row[5]}}</td>
 
-  <h1>Student lists</h1>
-  <form method="post" action="/student_listsf">
-    <input type="hidden" name="iddc" value="{{idd}}">
+                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    &nbsp;
+  &nbsp;
+  &nbsp;
+    <h2>Future Course Plan</h2>
     <table id="table_to_highlight" style="width:100%">
         <thead>
           <tr>     
-            <th>Student ID</th>
-            <th>Student Name</th>
-            <th>Department</th>
+            <th>Course ID</th>
             <th>Course Code</th>
             <th>Course Name</th>
-            <th>Day</th>
+            <th>Course Status</th>
+            <th>Level</th>
+            <th>Targeted Semester</th>
         
           </tr>
           </thead>    
@@ -100,9 +126,6 @@
               {% endfor %}
           </tbody>
       </table>
-      <p>
-        <a href="{{ url_for('student_lists.download_report', iddc = current_user.id) }}">Print list</a>
-    </p>
 </form>
 
 {% endblock %}

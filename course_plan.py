@@ -20,19 +20,20 @@ import json
 import plotly
 import plotly.express as px
 
-course_plan = Blueprint('course_plan', __name__)
+course_planb = Blueprint('course_plan', __name__)
 app = Flask(__name__)
 
-@course_plan.route('/course_plan', methods=['GET', 'POST']) 
-def course_planf():
-
-
-               
-                user_id = request.form.get('iddc',type=int)
+@course_planb.route('/course_plan', methods=['GET', 'POST']) 
+def course_plan():
+             
+                
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()
-                cur.execute("SELECT * FROM studen_course_info")
+                user_id = current_user.id
+                cur.execute("SELECT * FROM studen_course_info where user_id = '%s'" % (user_id))
                 Completed = cur.fetchall()
+                
+        
 
                 cur.execute("""select course.course_id,course.course_code,course.course_name, 'Not Completed' as complete , course.level_id, semester.sem_dec from course
 
@@ -45,5 +46,6 @@ where course.dep_id in (select dep_id from user where id =?) and course.course_i
                 
         
                 con.close()
-                return render_template('course_plan.html',NotCompleted=NotCompleted,Completed=Completed, idd = current_user.id,name= current_user.name,current_Sem_Dec=current_Sem_Dec)
+                
+                return render_template('course_plan.html', idd = current_user.id,name= current_user.name,NotCompleted=NotCompleted,Completed=Completed)
 
