@@ -42,7 +42,7 @@ def test_invalid_login():
     flask_app = create_app()
     with flask_app.test_client() as test_client:
         response = test_client.post('/login',
-                                    data=dict(email='naif.alblawi@cgu.edu', password='1111'))
+                                    data=dict(email='naif.alblawi@admin.edu', password='1111'))
         response = test_client.get('/login')
         assert response.status_code == 200
 

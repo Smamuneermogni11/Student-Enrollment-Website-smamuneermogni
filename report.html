@@ -253,7 +253,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
 }
 </script>
     <h1>report.html</h1>
-    <p>Report generated on 03-Dec-2022 at 14:27:12 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.2.0</p>
+    <p>Report generated on 03-Dec-2022 at 14:52:33 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.2.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -269,7 +269,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <td>Python</td>
         <td>3.10.8</td></tr></table>
     <h2>Summary</h2>
-    <p>5 tests ran in 0.47 seconds. </p>
+    <p>5 tests ran in 0.62 seconds. </p>
     <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">4 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">1 failed</span>, <input checked="true" class="filter" data-test-result="error" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">1 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
@@ -289,7 +289,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">request = &lt;SubRequest &#x27;_configure_application&#x27; for &lt;Function test_hello&gt;&gt;<br/>monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000021F3531E7A0&gt;<br/><br/>    @pytest.fixture(autouse=True)<br/>    def _configure_application(request, monkeypatch):<br/>        &quot;&quot;&quot;Use `pytest.mark.options` decorator to pass options to your application<br/>        factory::<br/>    <br/>            @pytest.mark.options(debug=False)<br/>            def test_something(app):<br/>                assert not app.debug, &#x27;the application works not in debug mode!&#x27;<br/>    <br/>        &quot;&quot;&quot;<br/>        if &quot;app&quot; not in request.fixturenames:<br/>            return<br/>    <br/>&gt;       app = getfixturevalue(request, &quot;app&quot;)<br/><br/>..\..\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\pytest_flask\plugin.py:129: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>..\..\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\pytest_flask\pytest_compat.py:3: in getfixturevalue<br/>    return request.getfixturevalue(value)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>    @pytest.fixture<br/>    def app():<br/>        db_fd, db_path = tempfile.mkstemp()<br/>    <br/>&gt;       app = create_app({<br/>            &#x27;TESTING&#x27;: True,<br/>            &#x27;DATABASE&#x27;: db_path,<br/>        })<br/><span class="error">E       TypeError: create_app() takes 0 positional arguments but 1 was given</span><br/><br/>conftest.py:16: TypeError<br/></div></td></tr></tbody>
+            <div class="log">request = &lt;SubRequest &#x27;_configure_application&#x27; for &lt;Function test_hello&gt;&gt;<br/>monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000027687659930&gt;<br/><br/>    @pytest.fixture(autouse=True)<br/>    def _configure_application(request, monkeypatch):<br/>        &quot;&quot;&quot;Use `pytest.mark.options` decorator to pass options to your application<br/>        factory::<br/>    <br/>            @pytest.mark.options(debug=False)<br/>            def test_something(app):<br/>                assert not app.debug, &#x27;the application works not in debug mode!&#x27;<br/>    <br/>        &quot;&quot;&quot;<br/>        if &quot;app&quot; not in request.fixturenames:<br/>            return<br/>    <br/>&gt;       app = getfixturevalue(request, &quot;app&quot;)<br/><br/>..\..\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\pytest_flask\plugin.py:129: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>..\..\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\pytest_flask\pytest_compat.py:3: in getfixturevalue<br/>    return request.getfixturevalue(value)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>    @pytest.fixture<br/>    def app():<br/>        db_fd, db_path = tempfile.mkstemp()<br/>    <br/>&gt;       app = create_app({<br/>            &#x27;TESTING&#x27;: True,<br/>            &#x27;DATABASE&#x27;: db_path,<br/>        })<br/><span class="error">E       TypeError: create_app() takes 0 positional arguments but 1 was given</span><br/><br/>conftest.py:16: TypeError<br/></div></td></tr></tbody>
       <tbody class="failed results-table-row">
         <tr>
           <td class="col-result">Failed</td>
@@ -312,7 +312,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test.py::test_home_page_get</td>
-          <td class="col-duration">0.02</td>
+          <td class="col-duration">0.03</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -321,7 +321,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test.py::test_valid_login_logout</td>
-          <td class="col-duration">0.04</td>
+          <td class="col-duration">0.05</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -330,7 +330,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test.py::test_invalid_login</td>
-          <td class="col-duration">0.03</td>
+          <td class="col-duration">0.04</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
