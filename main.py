@@ -17,6 +17,10 @@ def index():
 def About():
     return render_template('About.html')
 
+@main.route('/new') 
+def new():
+    return render_template('new.html')
+
 @main.route('/profile') 
 @login_required
 def profile():
