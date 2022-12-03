@@ -31,19 +31,30 @@ def adstudent():
             cur.execute("SELECT default_sem FROM default_sem")
             SEM = cur.fetchone()[0]
             con.commit()
-            cur.execute("SELECT id, name FROM user WHERE id = '%s' and rol_id is null" % (user_id))
-        
-            dbstdi = cur.fetchall()
-            cur.execute("SELECT course_id, course_code, course_name, level_id, credit, Day_id , FromT, Tot FROM course p WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s' and od.SEM = '%s') AND dep_id = (select dep_id from user where id  = '%s' ) AND p.SEM = '%s'" % (user_id,SEM,user_id,SEM))
-            data = cur.fetchall()
-            cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit,course.day_id ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' and course.SEM = '%s'" % (user_id,SEM,SEM))
-            data2 = cur.fetchall()
+            if request.method=='POST':
+                cur.execute("SELECT id, name FROM user WHERE id = '%s' and rol_id is null" % (user_id))
+                dbstdi = cur.fetchall()
+            else:
+                dbstdi = 1
+            if request.method=='POST':
+                cur.execute("SELECT course_id, course_code, course_name, level_id, credit, Day_id , FromT, Tot FROM course p WHERE  NOT EXISTS (SELECT * FROM   Time_table od WHERE  p.course_id = od.course_id and od.user_id = '%s' and od.SEM = '%s') AND dep_id = (select dep_id from user where id  = '%s' ) AND p.SEM = '%s'" % (user_id,SEM,user_id,SEM))
+                data = cur.fetchall()
+            else:
+                data = 1
+            if request.method=='POST':
+                cur.execute("SELECT course.course_id, course.course_code, course.course_name, course.credit,course.day_id ,course.fromT, course.toT FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' and course.SEM = '%s'" % (user_id,SEM,SEM))
+                data2 = cur.fetchall()
+            else:
+                data2 = 1
+            
             cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' " % (user_id,SEM))
             dataC = cur.fetchall()
+            cur.execute("SELECT * FROM semester_view")
+            current_Sem_Dec = cur.fetchall()[0][0]
             con.commit()
             con.close()
-            print('a2')
-    return render_template('admin_course_enrolment.html',data=data,data2=data2, idd = user_id,name= current_user.name,dataC=dataC, dbstdi=dbstdi)
+        
+    return render_template('admin_course_enrolment.html',data=data,data2=data2, idd = user_id,name= current_user.name,dataC=dataC, dbstdi=dbstdi,current_Sem_Dec=current_Sem_Dec)
 
 @admin_enrolment.route('/admin_incourse', methods=['GET', 'POST']) 
 def adincourse():
@@ -116,7 +127,8 @@ JOIN
                 data2 = cur.fetchall()
                 cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' " % (user_id,SEM))
                 dataC = cur.fetchall()
-                
+                cur.execute("SELECT * FROM semester_view")
+                current_Sem_Dec = cur.fetchall()[0][0]
                 con.commit()
                 con.close()
               
@@ -125,7 +137,7 @@ JOIN
 
 
                 
-                return render_template('admin_course_enrolment.html',data=data,data2=data2, idd = user_id,name= current_user.name,dataC=dataC, dbstdi=dbstdi,error=error)
+                return render_template('admin_course_enrolment.html',data=data,data2=data2, idd = user_id,name= current_user.name,dataC=dataC, dbstdi=dbstdi,error=error,current_Sem_Dec=current_Sem_Dec)
 
 
 @admin_enrolment.route('/admin_delcourse', methods=['GET', 'POST']) 
@@ -159,6 +171,8 @@ def addelcourse():
                 data2 = cur.fetchall()
                 cur.execute("SELECT sum(course.credit) FROM course INNER JOIN Time_table ON course.course_id =Time_table.course_id where Time_table.user_id = '%s' and Time_table.SEM = '%s' " % (user_id,SEM))
                 dataC = cur.fetchall()
+                cur.execute("SELECT * FROM semester_view")
+                current_Sem_Dec = cur.fetchall()[0][0]
                 con.commit()
                 con.close()
-                return render_template('admin_course_enrolment.html',data=data,data2=data2, idd = user_id,name= current_user.name,dataC=dataC, dbstdi=dbstdi)
+                return render_template('admin_course_enrolment.html',data=data,data2=data2, idd = user_id,name= current_user.name,dataC=dataC, dbstdi=dbstdi,current_Sem_Dec=current_Sem_Dec)

@@ -73,7 +73,11 @@ td {
               </div>
         </td>
       </tr>
-      
+    </tbody>
+  </table>
+  <h1><b>Staff</b></h1> 
+<table>
+<tbody>
       <tr>
  
         <td class="tg-0lax" >
@@ -87,14 +91,15 @@ td {
                 </div>
               </div>
         </td>
+        
         <td class="tg-0lax" >
           <div class="card">
-            <img src="/static/img/lec.png" alt="Avatar" style="width:100%">
+            <img src="/static/img/admin.png" alt="Avatar" style="width:100%">
             <div class="container">
-            {% for row in ssss %}
+            {% for row in admins %}
               <h4><b>{{row[0]}}</b></h4> 
             {% endfor %} 
-              <p>SSSSS</p> 
+              <p>Admins</p> 
             </div>
           </div>
         </td>

@@ -127,7 +127,7 @@ def download_report():
         pdf.set_font('Times','',10.0) 
         pdf.cell(page_width, 0.0, '- end of report -', align='C')
         
-        return Response(pdf.output(dest='S').encode('latin-1'), mimetype='application/pdf', headers={'Content-Disposition':'attachment;filename=lecturer5_TimeTable_report.pdf'})
+        return Response(pdf.output(dest='S').encode('latin-1'), mimetype='application/pdf', headers={'Content-Disposition':'attachment;filename=lecturer_TimeTable_report.pdf'})
     except Exception as e:
         print(e)
     finally:

@@ -62,6 +62,7 @@ JOIN
       And (cp2.fromT >= cp1.fromT and cp2.fromT < cp1.toT AND  cp1.fromT <= cp2.fromT and cp2.day_id = cp1.day_id)
       OR (cp2.toT > cp1.fromT and cp2.toT <= cp1.toT AND cp1.fromT <= cp2.fromT and cp2.day_id = cp1.day_id )
       OR (cp2.fromT <= cp1.fromT and cp2.toT >= cp1.toT AND cp1.fromT <= cp2.fromT and cp2.day_id = cp1.day_id)
+      OR (cp2.fromT <= cp1.toT    and cp2.toT >= cp1.fromT  and cp2.day_id = cp1.day_id)
      
       where cp2.loc_id = ? AND cp1.SEM = ? and  cp1.course_id = ?  """, (loc_id,SEM,course_id))
         entry = cur.fetchone()

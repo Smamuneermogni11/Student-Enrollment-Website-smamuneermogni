@@ -75,16 +75,21 @@
 &nbsp;
 
 <form method="post" action="/admin_course_enrolment">
+  &nbsp;
+<h3> Current Semester: {{current_Sem_Dec}} </h3>
+&nbsp;
     <input name="stdid">
     <button type="submit"> Search </button><br>
     &nbsp;
     &nbsp;
+    {% if not dbstdi %}
     {% for row in dbstdi %}    
     <input type="hidden" name="stdid" value="{{row[0]}}">
     &nbsp;
     &nbsp;
     <h3><strong>Student Name:</strong> {{row[1]}}<h3>
 {% endfor %}
+{% endif %}
 </form>
 &nbsp;
 &nbsp;
@@ -92,6 +97,9 @@
 
 {% if not dbstdi %}
 <h1 style="color:red;">Not Found</h1>
+{% else %}
+{% if data2 == 1 %}
+<h1 style="color:red;">Enter a User ID</h1>
 {% else %}
 {% if not data2 %}
 <h1 style="color:red;">Not enrolled in any Courses</h1>
@@ -144,13 +152,13 @@
       </table>
 </form>
 {% endif %}
-{% endif %}
+
 &nbsp;
 &nbsp;
 <hr>
 &nbsp;
 &nbsp;
-{% if not data %}
+{% if not data  %}
 <h1 style="color:red;">No Available Course</h1>
 {% else %}
 <Form >
@@ -196,7 +204,8 @@
           {% endfor %}
       </tbody>   
   </table>
-  
+  {% endif %}
+  {% endif %}
   {% endif %}
     </form> 
    

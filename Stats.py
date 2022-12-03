@@ -40,21 +40,23 @@ def Statsf():
                 
                 con.commit()
                 
-                cur.execute("SELECT alls from count_of_all_students where sem = '%s'" % (SEM))
+                cur.execute("SELECT alls from count_of_all_students")
                 dataAll = cur.fetchall()
-                cur.execute("SELECT Nots from count_of_NOT_enrolled_student")
+                cur.execute(""" select  count(DISTINCT user.id) as Nots from user
+                            where user.rol_id is null and user.id 
+                            not in (select distinct user_id from Time_table where sem = '%s') """ % (SEM))
                 dataNot = cur.fetchall()
                 cur.execute("SELECT Enrolled from count_of_Enrolled_students where sem = '%s'" % (SEM))
                 dataEnr = cur.fetchall()
                 cur.execute("SELECT lecalls from count_of_all_lec where sem = '%s'" % (SEM))
                 lecalls = cur.fetchall()
 
-                cur.execute("SELECT alls from count_of_all_students where sem = '%s'" % (SEM))
-                ssss = cur.fetchall()
+                cur.execute("SELECT admins from count_admins")
+                admins = cur.fetchall()
             
 
 
                 con.commit()
                 con.close()
-                return render_template('Stats.html',dataAll=dataAll,dataNot=dataNot,dataEnr=dataEnr,lecalls=lecalls, idd = current_user.id,name= current_user.name,current_Sem_Dec=current_Sem_Dec,ssss=ssss)
+                return render_template('Stats.html',dataAll=dataAll,dataNot=dataNot,dataEnr=dataEnr,lecalls=lecalls, idd = current_user.id,name= current_user.name,current_Sem_Dec=current_Sem_Dec,admins=admins)
 

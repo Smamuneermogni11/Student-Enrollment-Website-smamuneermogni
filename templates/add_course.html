@@ -33,9 +33,9 @@
 
  <table>
 
-  <tr><td>Course Code</td><td><input type="text" name="CourseCode" ></td></tr>
-  <tr><td>Course Name</td><td><input type="text" name="CourseName"></td></tr>
-  <tr><td>Course Description</td><td><input type="text" name="CourseDescription"></td></tr>
+  <tr><td>Course Code</td><td><input type="text" name="CourseCode" required></td></tr>
+  <tr><td>Course Name</td><td><input type="text" name="CourseName" required></td></tr>
+  <tr><td>Course Description</td><td><input type="text" name="CourseDescription" required></td></tr>
   <tr><td>Department</td><td><SELECT name="Department" style="font-family:verdana" id="Department">
     {% for j in Department %}
         <OPTION  value={{j[0]}}>{{j[1]}}</OPTION>
@@ -62,7 +62,7 @@
                 <OPTION  value='8'>8</OPTION>
             </SELECT></td></tr>
 
-  <tr><td>Course Credit</td><td><input type="number" name="Credit" ></td></tr>
+  <tr><td>Course Credit</td><td><input type="number" name="Credit" required></td></tr>
 
   
   <tr><td>Day</td><td><SELECT name="Day" style="font-family:verdana" id="Day">

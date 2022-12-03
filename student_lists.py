@@ -36,7 +36,7 @@ def student_listsf():
                 con.close()
                 return render_template('student_lists.html',data2=data2, idd = current_user.id,name= current_user.name)
 
-@student_lists.route('/download/report/pdfsl', methods=['GET', 'POST'])
+@student_lists.route('/download/report/pdfslv', methods=['GET', 'POST'])
 def download_report():
     
     

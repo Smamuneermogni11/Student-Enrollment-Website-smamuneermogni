@@ -80,8 +80,8 @@ def download_report():
          
         
         pdf.cell(8, th, 'ID', border=1, align='C')
-        pdf.cell(25, th, 'Name', border=1, align='C')
-        pdf.cell(25, th, 'Dep', border=1, align='C')
+        pdf.cell(75, th, 'Name', border=1, align='C')
+        pdf.cell(50, th, 'Dep', border=1, align='C')
        
         pdf.ln(th)
         pdf.set_font('Times', '', 12)
@@ -89,8 +89,8 @@ def download_report():
         for row in result:
             #pdf.cell(col_width, th, str(row[0]), border=1)
             pdf.cell(8, th, str(row[0]), border=1, align='C')
-            pdf.cell(25, th, row[1], border=1, align='C')
-            pdf.cell(25, th, row[2], border=1, align='C')
+            pdf.cell(75, th, row[1], border=1, align='C')
+            pdf.cell(50, th, row[2], border=1, align='C')
             pdf.ln(th)
          
         pdf.ln(10)
