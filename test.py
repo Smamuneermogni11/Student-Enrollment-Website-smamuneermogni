@@ -26,7 +26,7 @@ def test_valid_login_logout():
     flask_app = create_app()
     with flask_app.test_client() as test_client:
         response = test_client.post('/login',
-                                data=dict(email='naif.alblawi@cgu.edu', password='123456'))
+                                data=dict(email='naif.alblawi@admin.edu', password='123'))
         response = test_client.get('/profile')
         assert response.status_code == 200
     response = test_client.get('/logout', follow_redirects=True)
@@ -40,6 +40,30 @@ def test_invalid_login():
                                     data=dict(email='naif.alblawi@cgu.edu', password='1111'))
         response = test_client.get('/login')
         assert response.status_code == 200
+
+
+@pytest.fixture()
+def app():
+    app = create_app()
+    app.config.update({
+        "TESTING": True,
+    })
+
+    # other setup can go here
+
+    yield app
+
+    # clean up / reset resources here
+
+
+@pytest.fixture()
+def client(app):
+    return app.test_client()
+
+
+@pytest.fixture()
+def runner(app):
+    return app.test_cli_runner()  
         
 # cd C:\Users\MuneerMogni\Desktop\PythonByte edit\PythonByte
 # venv\Scripts\activate.bat
