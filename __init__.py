@@ -66,6 +66,9 @@ def create_app():
     app.register_blueprint(main_blueprint)
 
     from semester import semester as main_blueprint
-    app.register_blueprint(main_blueprint)        
+    app.register_blueprint(main_blueprint) 
+
+    from course_plan import course_plan as main_blueprint
+    app.register_blueprint(main_blueprint)       
     
     return app

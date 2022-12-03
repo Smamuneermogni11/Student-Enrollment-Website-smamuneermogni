@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/compiled-4.20.0.min.css">
+    
 </head>
 
 <body>      
@@ -107,6 +108,8 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{{ url_for('available_courses.student_course_enrolment', iddc = current_user.id) }}" >Enrolment</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ url_for('course_plan.course_planf', iddc = current_user.id) }}" >Course Plan</a>
                 
               </div>
             </li>

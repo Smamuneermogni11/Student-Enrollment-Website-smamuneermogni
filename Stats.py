@@ -48,10 +48,13 @@ def Statsf():
                 dataEnr = cur.fetchall()
                 cur.execute("SELECT lecalls from count_of_all_lec where sem = '%s'" % (SEM))
                 lecalls = cur.fetchall()
+
+                cur.execute("SELECT alls from count_of_all_students where sem = '%s'" % (SEM))
+                ssss = cur.fetchall()
             
 
 
                 con.commit()
                 con.close()
-                return render_template('Stats.html',dataAll=dataAll,dataNot=dataNot,dataEnr=dataEnr,lecalls=lecalls, idd = current_user.id,name= current_user.name,current_Sem_Dec=current_Sem_Dec)
+                return render_template('Stats.html',dataAll=dataAll,dataNot=dataNot,dataEnr=dataEnr,lecalls=lecalls, idd = current_user.id,name= current_user.name,current_Sem_Dec=current_Sem_Dec,ssss=ssss)
 
