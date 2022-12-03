@@ -9,6 +9,7 @@
 Test:
 windows
 python -m pytest
+python -m pytest test.py --html=report.html
 python -m coverage html  test.py
 
 Mac

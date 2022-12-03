@@ -1,9 +1,14 @@
 from pip import main
 import pytest
-
+import json
+import os
 from main import create_app
 from models import User
+import tempfile
+from __init__ import db
 
+with open(os.path.join(os.path.dirname(__file__), 'data.sql'), 'rb') as f:
+    _data_sql = f.read().decode('utf8')
 
 def test_home_page_post():
     flask_app = create_app()
@@ -42,7 +47,7 @@ def test_invalid_login():
         assert response.status_code == 200
 
 
-@pytest.fixture()
+
 def app():
     app = create_app()
     app.config.update({
@@ -56,15 +61,26 @@ def app():
     # clean up / reset resources here
 
 
-@pytest.fixture()
+
 def client(app):
     return app.test_client()
 
 
-@pytest.fixture()
+
 def runner(app):
     return app.test_cli_runner()  
         
 # cd C:\Users\MuneerMogni\Desktop\PythonByte edit\PythonByte
 # venv\Scripts\activate.bat
 # python -m main
+
+
+
+def test_config():
+    assert not create_app().testing
+    assert create_app({'TESTING': True}).testing
+
+
+def test_hello(client):
+    response = client.get('/hello')
+    assert response.data == b'Hello, World!'
