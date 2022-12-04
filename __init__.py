@@ -62,6 +62,9 @@ def create_app():
     from Stats import Stats as main_blueprint
     app.register_blueprint(main_blueprint)
 
+    from StatsSTD import StatsSTD as main_blueprint
+    app.register_blueprint(main_blueprint)
+
     from complete import complete as main_blueprint
     app.register_blueprint(main_blueprint)
 

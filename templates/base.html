@@ -819,8 +819,7 @@ p.copyright {
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('main.About') }}">About</a>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('main.new') }}">New</a>
+             
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -887,6 +886,7 @@ p.copyright {
                     <a class="dropdown-item" href="{{ url_for('student_lists_lec.student_lists_lecf') }}">Student_lists</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ url_for('complete.completef') }}">Grade</a>
+                  
                 </div>
               </li>
             </form>
@@ -901,6 +901,8 @@ p.copyright {
                 <a class="dropdown-item" href="{{ url_for('available_courses.student_course_enrolment', iddc = current_user.id) }}" >Enrolment</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ url_for('course_plan.course_plan', iddcv = current_user.id) }}" >Course Plan</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ url_for('StatsSTD.StatsSTDf') }}">Stats</a>
                 
               </div>
             </li>

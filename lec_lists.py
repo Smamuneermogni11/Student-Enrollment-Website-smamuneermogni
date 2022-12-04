@@ -23,7 +23,7 @@ app = Flask(__name__)
 def lec_listsf():
                 
                 user_id = current_user.id
-                print(user_id)
+              
                 con = sqlite3.connect("instance/db.sqlite")
                 cur = con.cursor()
                 
