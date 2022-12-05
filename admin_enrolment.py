@@ -105,11 +105,11 @@ JOIN
                 if entry is None:
                      cur.execute("insert into Time_table (user_id,course_id, Day_id, fromT, toT, SEM) values (?,?,(SELECT Day_id FROM course where course_id  = ?),(SELECT fromT FROM course where course_id  = ?),(SELECT toT FROM course where course_id  = ?), ?)", (user_id, course_id,course_id,course_id,course_id,SEM) )
                      error = "The course has been added successfully. "
-                     return 1
+                     
                      #cour2 = ""
                 else:
                     error = "There is a time conflict. Choose another course."
-                    return 2
+                    
                     #id_tuple = tuple(entry[1])
                     #cur.execute("SELECT course_id, course_code, course_name FROM course WHERE course_id in {};".format(id_tuple))
                     #cour2 = cur.fetchall()
