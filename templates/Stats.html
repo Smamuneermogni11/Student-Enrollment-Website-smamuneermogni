@@ -87,11 +87,21 @@ td {
                 {% for row in lecalls %}
                   <h4><b>{{row[0]}}</b></h4> 
                 {% endfor %} 
-                  <p>Lecturer</p> 
+                  <p>Lecturer has Course this Semester</p> 
                 </div>
               </div>
         </td>
-        
+        <td class="tg-0lax" >
+          <div class="card">
+              <img src="/static/img/lecall.jpg" alt="Avatar" style="width:100%">
+              <div class="container">
+              {% for row in lecallallsem %}
+                <h4><b>{{row[0]}}</b></h4> 
+              {% endfor %} 
+                <p>Total Lecturer</p> 
+              </div>
+            </div>
+      </td>
         <td class="tg-0lax" >
           <div class="card">
             <img src="/static/img/admin.png" alt="Avatar" style="width:100%">

@@ -51,6 +51,9 @@ def Statsf():
                 cur.execute("SELECT lecalls from count_of_all_lec where sem = '%s'" % (SEM))
                 lecalls = cur.fetchall()
 
+                cur.execute("SELECT lecallsem from count_all_lec_all_sem ")
+                lecallallsem = cur.fetchall()
+
                 cur.execute("SELECT admins from count_admins")
                 admins = cur.fetchall()
             
@@ -58,5 +61,5 @@ def Statsf():
 
                 con.commit()
                 con.close()
-                return render_template('Stats.html',dataAll=dataAll,dataNot=dataNot,dataEnr=dataEnr,lecalls=lecalls, idd = current_user.id,name= current_user.name,current_Sem_Dec=current_Sem_Dec,admins=admins)
+                return render_template('Stats.html',dataAll=dataAll,dataNot=dataNot,dataEnr=dataEnr,lecalls=lecalls, idd = current_user.id,name= current_user.name,current_Sem_Dec=current_Sem_Dec,admins=admins,lecallallsem=lecallallsem)
 

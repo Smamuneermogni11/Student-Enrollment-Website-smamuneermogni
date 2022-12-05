@@ -31,10 +31,11 @@ def student_lists_lecf():
                 con.commit()
                 cur.execute("SELECT * from student_list where lec_id = '%s' and sem_id = '%s'" % (user_id,SEM))
                 data2 = cur.fetchall()
-
+                cur.execute("SELECT * FROM semester_view")
+                current_Sem_Dec = cur.fetchall()[0][0]
                 con.commit()
                 con.close()
-                return render_template('student_lists_lec.html',data2=data2, idd = current_user.id,name= current_user.name)
+                return render_template('student_lists_lec.html',data2=data2, idd = current_user.id,name= current_user.name,current_Sem_Dec=current_Sem_Dec)
 
 @student_lists_lec.route('/download/report/pdfslec', methods=['GET', 'POST'])
 def download_report():

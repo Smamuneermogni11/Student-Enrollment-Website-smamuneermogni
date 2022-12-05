@@ -70,8 +70,11 @@
   <form method="post" action="/download/report/pdfsl">
     <input type="hidden" name="iddc" value="{{idd}}">
   </form>
+  {% if not data2 %}
+    <h1 style="color:red;">You have No Student Enrolled For {{current_Sem_Dec}}</h1>
+    {% else %}
 
-  <h1>lecturer Timetable</h1>
+  <h1>lecturer Timetable {{current_Sem_Dec}}</h1>
   <form method="post" action="/Timetable_lecturerf">
     <input type="hidden" name="iddc" value="{{idd}}">
     <table id="table_to_highlight" style="width:100%">
@@ -110,6 +113,7 @@
       <p>
         <a href="{{ url_for('Timetable_lecturer.download_report', iddc = current_user.id) }}">Print TimeTable</a>
     </p>
+    {% endif %}
 </form>
 
 {% endblock %}

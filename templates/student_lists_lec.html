@@ -71,9 +71,14 @@
     <input type="hidden" name="iddc" value="{{idd}}">
   </form>
 
-  <h1>Student lists</h1>
+  
+
   <form method="post" action="/student_lists_lecf">
     <input type="hidden" name="iddc" value="{{idd}}">
+    {% if not data2 %}
+    <h1 style="color:red;">You have No Student Enrolled For {{current_Sem_Dec}}</h1>
+    {% else %}
+    <h1>Student lists For {{current_Sem_Dec}}</h1>
     <table id="table_to_highlight" style="width:100%">
         <thead>
           <tr>     
@@ -108,6 +113,7 @@
       <p>
         <a href="{{ url_for('student_lists_lec.download_report', iddc = current_user.id) }}">Print list</a>
     </p>
+    {% endif %}
 </form>
 
 {% endblock %}
