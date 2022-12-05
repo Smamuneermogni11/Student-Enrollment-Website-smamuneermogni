@@ -81,10 +81,23 @@ def test_del_loc():
 def test_add_course():
     flask_app = create_app()
     with flask_app.test_client() as test_client:
+        
         response = test_client.post('/add_coursef',
                                     data=dict(CourseCode='CSC 250', CourseName='Information Technology',CourseDescription='Information Technology',Department='3',Plan='1',Level='1',Credit='4',Day='1',From='8:00',To='12:00',Semester='222'))
         response = test_client.get('/add_coursef')
         assert response.status_code == 200
+
+def test_profile():
+    flask_app = create_app()
+    with flask_app.test_client() as test_client:
+        test_client.post('/login',
+                                data=dict(email='naif.alblawi@admin.edu', password='123'))
+        response = test_client.post('/profile',
+                                    data=dict(name= current_user.name))
+        response = test_client.get('/profile')
+        assert response.status_code == 200
+        assert current_user.name == 'Naif'
+
 
 def test_del_course():
     flask_app = create_app()
@@ -93,7 +106,6 @@ def test_del_course():
                                     data=dict(CourseID='200'))
         response = test_client.get('/del_course')
         assert response.status_code == 200
-
 def app():
     app = create_app()
     app.config.update({
