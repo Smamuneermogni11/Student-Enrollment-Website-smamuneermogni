@@ -9,9 +9,7 @@ from __init__ import db
 from flask import Flask, session,template_rendered
 from flask_login import login_required, current_user
 
-from contextlib import contextmanager
-with open(os.path.join(os.path.dirname(__file__), 'data.sql'), 'rb') as f:
-    _data_sql = f.read().decode('utf8')
+
 
 
 def test_home_page_post():
