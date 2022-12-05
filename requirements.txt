@@ -9,3 +9,6 @@ fpdf
 plotly
 flask-mysqldb
 coverage
+pytest-cov
+pytest-xdist
+pytest-bdd
