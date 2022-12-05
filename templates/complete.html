@@ -80,6 +80,9 @@
             <th>Course Code</th>
             <th>Course Name</th>
             <th>Semester</th>
+            <th>Pass</th>
+            <th>Fail</th>
+            <th>No Grade</th>
             <th>Complete</th>
           </tr>
           </thead>    
@@ -87,34 +90,29 @@
            {% for row in data2 %}    
                   <tr> 
                     
-                    
-                      <td>{{row[0]}}</td>                  
+                      <td>{{row[0]}}</td> 
                       <td>{{row[1]}}</td>
                       <td>{{row[2]}}</td>
                       <td>{{row[3]}}</td>
                       <td>{{row[4]}}</td>
                       <td>{{row[8]}}</td>
+                      
+                   
+                      <td><button class="bi bi-plus" type="submit" value="{{ row[14] }}" name="Pass">Pass</button></td>
+                      <td><button class="bi bi-plus" type="submit" value="{{ row[14] }}" name="Fail">Fail</button></td>
+                      <td><button class="bi bi-plus" type="submit" value="{{ row[14] }}" name="nograde">No Grade</button></td>
                       {% if row[13] == 0 %}
                       <td>Fail</td>
-                      <input type="hidden" name="std_id" value="{{row[0]}}">
-                      <input type="hidden" name="std_sem" value="{{row[9]}}">
                       {% elif row[13] == 1 %}
                       <td>PASS</td>
-                      <input type="hidden" name="std_id" value="{{row[0]}}">
-                      <input type="hidden" name="std_sem" value="{{row[9]}}">
                       {% else %}
                       <td>No Grade</td>
-                      <input type="hidden" name="std_id" value="{{row[0]}}">
-                      <input type="hidden" name="std_sem" value="{{row[9]}}">
                       {% endif %}
-                      
-                      <td><button class="bi bi-plus" type="submit" value="{{ row[12] }}" name="Pass">Pass</button></td>
-                      <td><button class="bi bi-plus" type="submit" value="{{ row[12] }}" name="Fail">Fail</button></td>
-                      <td><button class="bi bi-plus" type="submit" value="{{ row[12] }}" name="nograde">No Grade</button></td>
                   </tr>
                   {% if value %}
-                    {{value}}
-                    {% endif %}
+                  {{value}}
+                  {% endif %}
+
               {% endfor %}
           </tbody>
       </table>

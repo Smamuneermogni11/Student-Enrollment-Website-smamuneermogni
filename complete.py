@@ -31,12 +31,11 @@ def completef():
             con.commit()
             cur.execute("SELECT * from student_list where lec_id = '%s'" % (user_id))
             data2 = cur.fetchall()
-            std_id =  request.form.get('std_id')
-            std_sem = request.form.get('std_sem')
+
             course_idP = request.form.get('Pass')
             course_idF = request.form.get('Fail')
             course_idN = request.form.get('nograde')
-            print(course_idP)
+            
             #if request.method == 'POST':
             Pass = request.form.get('Pass', None)
             Fail = request.form.get('Fail', None)
@@ -44,13 +43,15 @@ def completef():
             #Nullvalue = None
 
             if Pass:
-                cur.execute("UPDATE  Time_table set complete = 1 where course_id = ? " , (course_idP))
+                cur.execute("UPDATE  Time_table set complete = 1 where time_table_id = '%s'" % (course_idP,))
                 con.commit()
+           
             elif Fail:
-                cur.execute("UPDATE  Time_table set complete = 0 where course_id = ? " , (course_idF))
+                cur.execute("UPDATE  Time_table set complete = 0 where time_table_id = '%s'" % (course_idF,))
                 con.commit()
+            
             elif nograde:
-                cur.execute("UPDATE  Time_table set complete = NULL where course_id = ? " , (course_idN))
+                cur.execute("UPDATE  Time_table set complete = NULL where time_table_id = '%s'" % (course_idN,))
                 con.commit()
 
 
