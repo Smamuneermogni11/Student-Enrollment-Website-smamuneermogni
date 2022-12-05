@@ -14,9 +14,6 @@ with open(os.path.join(os.path.dirname(__file__), 'data.sql'), 'rb') as f:
     _data_sql = f.read().decode('utf8')
 
 
-
-
-
 def test_home_page_post():
     flask_app = create_app()
     with flask_app.test_client() as test_client:
@@ -31,9 +28,6 @@ def test_home_page_get():
 
         assert response.status_code == 200
         assert b"Home Page Test" not in response.data
-
-
-
 
 
 def test_valid_login_logout():
