@@ -6,19 +6,14 @@
 6. From the Browser go to  http://127.0.0.1:5000  # Browser the website
 
 
-Test:
-windows
-python -m pytest
-python -m pytest test.py --html=report.html
-python -m coverage html  test.py
-python -m pytest --cov=PythonByte
+Testing the Website:
+For windows:
 
-python -m pytest --html=report.html
-*** python -m pytest --cov
+python -m pytest #testing project
+python -m pytest --html=report.html --testing project and generating report
+python -m pytest --cov #testing project and coverage
+For MacOS and Linux user:
 
-
-
-Mac
-pytest
-pytest test.py
-python -m coverage html  test.py
+pytest #testing project
+pytest --html=report.html #testing project and generating report
+pytest --cov #testing project and coverage
