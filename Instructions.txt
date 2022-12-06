@@ -11,6 +11,12 @@ windows
 python -m pytest
 python -m pytest test.py --html=report.html
 python -m coverage html  test.py
+python -m pytest --cov=PythonByte
+
+
+*** python -m pytest --cov
+
+
 
 Mac
 pytest
