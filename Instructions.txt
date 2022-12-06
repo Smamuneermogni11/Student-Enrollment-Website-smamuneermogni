@@ -13,7 +13,7 @@ python -m pytest test.py --html=report.html
 python -m coverage html  test.py
 python -m pytest --cov=PythonByte
 
-
+python -m pytest --html=report.html
 *** python -m pytest --cov
 
 

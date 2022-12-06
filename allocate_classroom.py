@@ -39,8 +39,7 @@ def allocate_classroomf():
         con.commit()
         nolec = request.form.get('nolec', None)
         loc_id = request.form.get('classroom')
-        print("loc_idss")
-        print(loc_id)
+      
         cur.execute(""" SELECT distinct
 
     cp1.Day_id AS CP1_Day_id,
@@ -90,7 +89,9 @@ JOIN
         courses = cur.fetchall()
         con.commit()
         con.close()
-     
+        print(classroom)
+        print(courses)
+        print(error)
        
 
     return render_template('allocate_classroom.html', classroom=classroom,courses=courses,error=error)

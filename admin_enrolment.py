@@ -51,8 +51,16 @@ def adstudent():
             dataC = cur.fetchall()
             cur.execute("SELECT * FROM semester_view")
             current_Sem_Dec = cur.fetchall()[0][0]
+            print(data)
+            print(data2)
+            print(user_id)
+            
+            print(dataC)
+            print(dbstdi)
+            print(current_Sem_Dec)
             con.commit()
             con.close()
+        
         
     return render_template('admin_course_enrolment.html',data=data,data2=data2, idd = user_id,name= current_user.name,dataC=dataC, dbstdi=dbstdi,current_Sem_Dec=current_Sem_Dec)
 
