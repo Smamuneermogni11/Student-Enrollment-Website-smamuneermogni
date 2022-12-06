@@ -151,13 +151,17 @@ source venv/bin/activate
 3. pip install -r requirements.txt
 4. python main.py
 
-
 ## Testing the Website: 
+
 ### For windows: 
-python -m pytest test.py
+python -m pytest #testing project
+python -m pytest --html=report.html #testing project and generating report
+python -m pytest --cov #testing project and coverage
 
 ### For MacOS and Linux user: 
-pytest test.py
+pytest #testing project
+pytest --html=report.html #testing project and generating report
+pytest --cov #testing project and coverage
 
 ## ** Three most important things you learned about software development**
 The first important thing we learned was Agile methods. Agile is an iterative approach to project management and software development that helps teams deliver value to their customers faster and with fewer headaches. Instead of betting everything on a "big bang" launch, an agile team delivers work in small, but consumable, increments. Our team produced user stories and started right away with a prototype for our customers while continuously refactoring the code to make the customer happy. We planned, design, developed, tested, deployed, and reviewed everything along the project if something did not work it was immediately addressed. Implementing the Agile method helped us deliver our final project without bugs.  
